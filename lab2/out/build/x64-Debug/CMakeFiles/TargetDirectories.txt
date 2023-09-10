@@ -1,0 +1,4 @@
+D:/VisualStd/OOP/lab2/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+D:/VisualStd/OOP/lab2/out/build/x64-Debug/CMakeFiles/prog.dir
+D:/VisualStd/OOP/lab2/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+D:/VisualStd/OOP/lab2/out/build/x64-Debug/CMakeFiles/main.dir
