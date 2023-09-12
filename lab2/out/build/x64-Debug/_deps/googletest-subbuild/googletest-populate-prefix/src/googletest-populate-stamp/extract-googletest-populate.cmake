@@ -1,6 +1,6 @@
 # Make file names absolute:
 #
-get_filename_component(filename "D:/VisualStd/OOP/lab2/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/release-1.11.0.tar.gz" ABSOLUTE)
+get_filename_component(filename "D:/VisualStd/OOP/lab2/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/release-1.11.0.zip" ABSOLUTE)
 get_filename_component(directory "D:/VisualStd/OOP/lab2/out/build/x64-Debug/_deps/googletest-src" ABSOLUTE)
 
 message(STATUS "extracting...

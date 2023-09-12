@@ -114,10 +114,19 @@ bool function(double x, double y, double z)
 	return true;
 }
 
+bool correct(std::string str)
+{
+	if (str == "sunny" || str == "rain" || str == "snow" || str == "cloudy")
+	{
+		return true;
+	}
+	return false;
+}
+
 DailyForecast& DailyForecast::SetWeather(std::string weather)
 {
 	if (precipitation != 0.0 && (weather == "sunny" || weather == "cloudy" ) || 
-		function(morningT, dayT, eveningT) == false && weather == "snow")
+		function(morningT, dayT, eveningT) == false && weather == "snow" || correct(weather) == false)
 	{
 		throw std::invalid_argument("Error\n");
 	}
@@ -127,11 +136,19 @@ DailyForecast& DailyForecast::SetWeather(std::string weather)
 
 int DailyForecast::GetData()
 {
+	if (data > 31 || data < 1)
+	{
+		throw std::invalid_argument("");
+	}
 	return data;
 }
 
 std::string DailyForecast::GetWeather()
 {
+	if (correct(weather) == false)
+	{
+		throw std::invalid_argument("");
+	}
 	return weather;
 }
 
@@ -196,15 +213,6 @@ void proverka_two(int data, double temperature, double precipitation)
 	{
 		throw std::invalid_argument("YES\n");
 	}
-}
-
-bool correct(std::string str)
-{
-	if (str == "sunny" || str == "rain" || str == "snow" || str == "cloudy")
-	{
-		return true;
-	}
-	return false;
 }
 
 std::string push()

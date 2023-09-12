@@ -1,8 +1,10 @@
 #include <iostream>
 #include "prog.h"
+#include <gtest/gtest.h>
 
 int main()
 {
+	::testing::InitGoogleTest();
 	DailyForecast one, two;
 	int number, x;
 	try
@@ -14,7 +16,8 @@ int main()
 			std::cout << "3. Unification" << std::endl;
 			std::cout << "4. Sr_zn" <<std::endl;
 			std::cout << "5. Setters" << std::endl;
-			std::cout << "6. Exit" << std::endl;
+			std::cout << "6. Test" << std::endl;
+			std::cout << "7. Exit" << std::endl;
 			number = getNum <int>(0);
 			switch (number)
 			{
@@ -60,6 +63,9 @@ int main()
 				}
 				break;
 			case 6:
+				RUN_ALL_TESTS();
+				break;
+			case 7:
 				return 0;
 			default:
 				std::cout << "No such point\n";

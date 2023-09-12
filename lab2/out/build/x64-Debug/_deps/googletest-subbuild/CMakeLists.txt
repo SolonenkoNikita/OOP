@@ -13,7 +13,7 @@ project(googletest-populate NONE)
 
 include(ExternalProject)
 ExternalProject_Add(googletest-populate
-                     "UPDATE_DISCONNECTED" "False" "URL" "https://github.com/google/googletest/archive/release-1.11.0.tar.gz"
+                     "UPDATE_DISCONNECTED" "False" "URL" "https://github.com/google/googletest/archive/release-1.11.0.zip"
                     SOURCE_DIR          "D:/VisualStd/OOP/lab2/out/build/x64-Debug/_deps/googletest-src"
                     BINARY_DIR          "D:/VisualStd/OOP/lab2/out/build/x64-Debug/_deps/googletest-build"
                     CONFIGURE_COMMAND   ""
