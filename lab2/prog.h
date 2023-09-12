@@ -26,10 +26,11 @@ public:
 	DailyForecast& SetWeather(std::string);
 	int GetData();
 	std::string GetWeather();
-	int GetData();
-	int GetData();
-	int GetData();
-	int sr_zn();
+	double GetT(int);
+	double GetPr();
+	double sr_zn();
+	static DailyForecast input();
+	DailyForecast& operator += (const DailyForecast&);
 	void print();
 };
 
@@ -48,15 +49,17 @@ T getNum(T min = std::numeric_limits<T>::min(), T max = std::numeric_limits<T>::
 		{
 			throw std::runtime_error("WTF?!\n");
 		}
-		else if (std::cin.fail())
+		else if (std::cin.fail() || number < min || number > max)
 		{
 			std::cin.clear(); // очищаем флаги состояния потока
 			   // игнорируем все символы до конца строки
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			std::cout << "You are wrong; repeat please!" << std::endl;
 		}
-		return number;
+		else return number;
 	}
 }
+
+std::string push();
 
 #endif
