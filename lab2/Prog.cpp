@@ -11,6 +11,15 @@ DailyForecast::DailyForecast()
 	precipitation = 0;
 }
 
+/**
+* @brief Конструктор первая вариация
+* @param data Дата прогноза
+* @param morningT Утрення температура
+* @param dayT Дневная температура
+* @param eveningT Вечерняя температура
+* @param weather Погода
+* @param precepitation Осадки
+*/
 DailyForecast::DailyForecast(int data, double morningT, double dayT, double eveningT,
 	std::string weather, double precipitation)
 {
@@ -21,6 +30,13 @@ DailyForecast::DailyForecast(int data, double morningT, double dayT, double even
 	this->weather = weather;
 	this->precipitation = precipitation;
 }
+
+/**
+* @brief Конструктор вторая вариация
+* @param data Дата прогноза
+* @param temperature Температура
+* @param precepitation Осадки
+*/
 
 DailyForecast::DailyForecast(int data, double temperature, double precipitation)
 {
@@ -50,10 +66,22 @@ DailyForecast::DailyForecast(int data, double temperature, double precipitation)
 	this->precipitation = precipitation;
 }
 
+/**
+* @brief Метод, который возвращает среднее значение температуры
+* @return Среднее значение
+*/
+
 double DailyForecast::sr_zn()
 {
 	return (dayT + morningT + eveningT) / 3;
 }
+
+/**
+* @brief Сеттер, который меняет дневную температуру 
+* @param a Новое значение темпы
+* @throw Не корректное значение, выбросит исключение invalid_argument
+* @return Ссылку на объект класса
+*/
 
 DailyForecast &DailyForecast::SetDayT(double a)
 {
@@ -65,6 +93,13 @@ DailyForecast &DailyForecast::SetDayT(double a)
 	return *this;
 }
 
+/**
+* @brief Сеттер, который меняет вечернуюю температуру
+* @param a Новое значение темпы
+* @throw Не корректное значение, выбросит исключение invalid_argument
+* @return Ссылку на объект класса
+*/
+
 DailyForecast& DailyForecast::SetEveningT(double a)
 {
 	if (a > 0 && weather == "snow" || a < -100 || a > 60)
@@ -74,6 +109,13 @@ DailyForecast& DailyForecast::SetEveningT(double a)
 	eveningT = a;
 	return *this;
 }
+
+/**
+* @brief Сеттер, который меняет утреннюю температуру
+* @param a Новое значение темпы
+* @throw Не корректное значение, выбросит исключение invalid_argument
+* @return Ссылку на объект класса
+*/
 
 DailyForecast& DailyForecast::SetMorningT(double a)
 {
@@ -85,6 +127,13 @@ DailyForecast& DailyForecast::SetMorningT(double a)
 	return *this;
 }
 
+/**
+* @brief Сеттер, который меняет дату
+* @param data Новое значение темпы
+* @throw Не корректное значение, выбросит исключение invalid_argument
+* @return Ссылку на объект класса
+*/
+
 DailyForecast& DailyForecast::SetData(int data)
 {
 	if (data > 31 || data < 1)
@@ -94,6 +143,13 @@ DailyForecast& DailyForecast::SetData(int data)
 	this->data = data;
 	return *this;
 }
+
+/**
+* @brief Сеттер, который меняет осадки
+* @param n Новое значение осадков
+* @throw Не корректное значение, выбросит исключение invalid_argument
+* @return Ссылку на объект класса
+*/
 
 DailyForecast& DailyForecast::SetPrecipitation(double n)
 {
@@ -123,6 +179,13 @@ bool correct(std::string str)
 	return false;
 }
 
+/**
+* @brief Сеттер, который меняет погоду
+* @param weather Новое значение осадков
+* @throw Не корректное значение, выбросит исключение invalid_argument
+* @return Ссылку на объект класса
+*/
+
 DailyForecast& DailyForecast::SetWeather(std::string weather)
 {
 	if (precipitation != 0.0 && (weather == "sunny" || weather == "cloudy" ) || 
@@ -134,7 +197,13 @@ DailyForecast& DailyForecast::SetWeather(std::string weather)
 	return *this;
 }
 
-int DailyForecast::GetData()
+/**
+* @brief Геттер, который возвращает дату
+* @throw Не корректное значение, выбросит исключение invalid_argument
+* @return Дата
+*/
+
+int DailyForecast::GetData() const
 {
 	if (data > 31 || data < 1)
 	{
@@ -143,7 +212,13 @@ int DailyForecast::GetData()
 	return data;
 }
 
-std::string DailyForecast::GetWeather()
+/**
+* @brief Геттер, который возвращает погоду
+* @throw Не корректное значение, выбросит исключение invalid_argument
+* @return Погода
+*/
+
+std::string DailyForecast::GetWeather() const
 {
 	if (correct(weather) == false)
 	{
@@ -152,7 +227,13 @@ std::string DailyForecast::GetWeather()
 	return weather;
 }
 
-double DailyForecast::GetT(int number)
+/**
+* @brief Геттер, который возвращает температуру на выбор
+* @param number номер погоды на выбор(утро, день или вечер)  
+* @return Температура
+*/
+
+double DailyForecast::GetT(int number) const
 {
 	if (number == 1)
 	{
@@ -165,7 +246,12 @@ double DailyForecast::GetT(int number)
 	return eveningT;
 }
 
-double DailyForecast::GetPr()
+/**
+* @brief Геттер, который возвращает осадки
+* @return Осадки
+*/
+
+double DailyForecast::GetPr() const
 {
 	return precipitation;
 }
@@ -190,28 +276,39 @@ int help(std::string str)
 	}
 }
 
+/**
+* @brief Функция проверки данных для первого конструктора, чтобы не выбрасывать исключение внутри него
+* @param data дата
+* @param weather погода
+* @param T1 утренняя температра 
+* @param T2 дневная температура
+* @param T3 вечерняя температура
+* @precipication осадки
+* @throw Некорректное значение
+*/
+
 void proverka(int data, std::string weather, double T1, double T2, double T3, double precipitation)
 {
 	if (data < 0 || data > 31 || T1 < -100 || T1 > 60 || T2 < -100 || T2 > 60 ||
 		T3 < -100 || T3 > 60 || precipitation > 1500)
 	{
-		throw std::invalid_argument("YES\n");
+		throw std::invalid_argument("Invalid argument\n");
 	}
 	else if ((weather == "sunny" || weather == "cloudy") && precipitation != 0)
 	{
-		throw std::invalid_argument("YES\n");
+		throw std::invalid_argument("Invalid argument\n");
 	}
 	else if (weather == "snow" && (T1 > 0 || T2 > 0 || T3 > 0))
 	{
-		throw std::invalid_argument("YES\n");
+		throw std::invalid_argument("Invalid argument\n");
 	}
 }
 
 void proverka_two(int data, double temperature, double precipitation)
 {
-	if (data < 0 || data > 31 || temperature < -100 || temperature > 60 || precipitation > 1500)
+	if (data < 1 || data > 31 || temperature < -100 || temperature > 60 || precipitation > 1500)
 	{
-		throw std::invalid_argument("YES\n");
+		throw std::invalid_argument("Error\n");
 	}
 }
 
@@ -242,6 +339,13 @@ std::string push()
 	}
 }
 
+/**
+* @brief Метод ввода, в котором вызывается один из конструкторов на выбор
+* @throw Некорректное значение
+* @throw Ошибка времени выполнения
+* @return Экзмепляр класса
+*/
+
 DailyForecast DailyForecast::input()
 {
 	std::cout << "Input number of kont" << std::endl;
@@ -249,13 +353,13 @@ DailyForecast DailyForecast::input()
 	try
 	{
 		std::cout << "Input data:" << std::endl;
-		int d = getNum <int>(0);
+		int d = getNum <int>(1, 31);
 		std::cout << "Input precipitation" << std::endl;
 		double pr = getNum <double>(0);
 		if (x == 1)
 		{
 			std::cout << "Input three temperature: " << std::endl;
-			double T1 = getNum <double>(), T2 = getNum <double>(0), T3 = getNum<double>(0);
+			double T1 = getNum <double>(-100, 60), T2 = getNum <double>(-100, 60), T3 = getNum<double>(-100, 60);
 			std::cout << "Input weather" << std::endl;
 			std::string str = push();
 			proverka(d, str, T1, T2, T3, pr);
@@ -265,7 +369,7 @@ DailyForecast DailyForecast::input()
 		if (x == 2)
 		{
 			std::cout << "Input temperature: " << std::endl;
-			double T = getNum <double>(0);
+			double T = getNum <double>(-100, 60);
 			proverka_two(d, T, pr);
 			DailyForecast a(d, T, pr);
 			return a;
@@ -280,6 +384,15 @@ DailyForecast DailyForecast::input()
 		throw std::runtime_error("UPSS\n");
 	}
 }
+
+/**
+* @brief Перегрузка оператора +=
+* @param one Константная ссылка
+* @throw Некорректное значение
+* @throw Некорректное значение 
+* @return Ссылку на экзмепляр класса
+*/
+
 
 DailyForecast& DailyForecast::operator+=(const DailyForecast& one)
 {
@@ -303,6 +416,32 @@ DailyForecast& DailyForecast::operator+=(const DailyForecast& one)
 	}
 	return *this;
 }
+
+/**
+* @brief Перегрузка оператора <=>
+* @param one Константная ссылка
+* @return Значение типа std::strong_ordering 
+*/
+
+std::strong_ordering DailyForecast::operator<=>(const DailyForecast& one) const
+{
+	if (data < one.data)
+	{
+		return std::strong_ordering::less;
+	}
+	else if(data > one.data)
+	{
+		return std::strong_ordering::greater;
+	}
+	else
+	{
+		return std::strong_ordering::equal;
+	}
+}
+
+/**
+* @brief Метод вывода
+*/
 
 void DailyForecast::print()
 {
