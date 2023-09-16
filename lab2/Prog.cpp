@@ -1,195 +1,107 @@
-#include "prog.h"
 #include <iostream>
+#include "prog.h"
 
-DailyForecast::DailyForecast()
+DailyForecast::DailyForecast(int d, double mT, double dT, double eT,
+	weather_type w, double p) : date(d), morningT(mT), dayT(dT), eveningT(eT),
+								precipitation(p), weather(w)
 {
-	data = 0;
-	dayT = 0;
-	morningT = 0;
-	eveningT = 0;
-	weather = "Musor";
-	precipitation = 0;
 }
 
-/**
-* @brief Конструктор первая вариация
-* @param data Дата прогноза
-* @param morningT Утрення температура
-* @param dayT Дневная температура
-* @param eveningT Вечерняя температура
-* @param weather Погода
-* @param precepitation Осадки
-*/
-DailyForecast::DailyForecast(int data, double morningT, double dayT, double eveningT,
-	std::string weather, double precipitation)
+DailyForecast::DailyForecast(int d, double temperature, double p) :date(d), 
+				morningT(temperature), dayT(temperature), eveningT(temperature),
+	precipitation(p)
 {
-	this->data = data;
-	this->dayT = dayT;
-	this->morningT = morningT;
-	this->eveningT = eveningT;
-	this->weather = weather;
-	this->precipitation = precipitation;
-}
-
-/**
-* @brief Конструктор вторая вариация
-* @param data Дата прогноза
-* @param temperature Температура
-* @param precepitation Осадки
-*/
-
-DailyForecast::DailyForecast(int data, double temperature, double precipitation)
-{
-	if (temperature > 0 && precipitation == 0)
+	if (temperature > 0 && p == 0)
 	{
-		if(temperature > 20)
+		if (temperature > 20)
 		{
-			weather = "sunny";
+			weather = weather_type::sunny;
 		}
 		else
 		{
-			weather = "cloudy";
+			weather = weather_type::cloudy;
 		}
 	}
 	else if (temperature < 0)
 	{
-		weather = "snow";
+		weather = weather_type::snow;
 	}
 	else
 	{
-		weather = "rain";
+		weather = weather_type::rain;
 	}
-	this->data = data;
-	this->dayT = temperature;
-	this->morningT = temperature;
-	this->eveningT = temperature;
-	this->precipitation = precipitation;
 }
 
-/**
-* @brief Метод, который возвращает среднее значение температуры
-* @return Среднее значение
-*/
-
-double DailyForecast::sr_zn()
+double DailyForecast::average_temperature()
 {
 	return (dayT + morningT + eveningT) / 3;
 }
 
-/**
-* @brief Сеттер, который меняет дневную температуру 
-* @param a Новое значение темпы
-* @throw Не корректное значение, выбросит исключение invalid_argument
-* @return Ссылку на объект класса
-*/
-
-DailyForecast &DailyForecast::SetDayT(double a)
+void DailyForecast::check_temperature_snow(double temperature)
 {
-	if (a > 0 && weather == "snow" || a < -100 || a > 60)
+	if (temperature > 0 && weather == weather_type::snow ||
+		temperature < minTemperature || temperature > maxTemperature)
 	{
 		throw std::invalid_argument("Error\n");
 	}
+}
+
+DailyForecast& DailyForecast::SetDayT(double a)
+{
+	DailyForecast::check_temperature_snow(a);
 	dayT = a;
 	return *this;
 }
 
-/**
-* @brief Сеттер, который меняет вечернуюю температуру
-* @param a Новое значение темпы
-* @throw Не корректное значение, выбросит исключение invalid_argument
-* @return Ссылку на объект класса
-*/
-
 DailyForecast& DailyForecast::SetEveningT(double a)
 {
-	if (a > 0 && weather == "snow" || a < -100 || a > 60)
-	{
-		throw std::invalid_argument("Error\n");
-	}
+	DailyForecast::check_temperature_snow(a);
 	eveningT = a;
 	return *this;
 }
 
-/**
-* @brief Сеттер, который меняет утреннюю температуру
-* @param a Новое значение темпы
-* @throw Не корректное значение, выбросит исключение invalid_argument
-* @return Ссылку на объект класса
-*/
-
 DailyForecast& DailyForecast::SetMorningT(double a)
 {
-	if (a > 0 && weather == "snow" || a < -100 || a > 60)
-	{
-		throw std::invalid_argument("Error\n");
-	}
+	DailyForecast::check_temperature_snow(a);
 	morningT = a;
 	return *this;
 }
 
-/**
-* @brief Сеттер, который меняет дату
-* @param data Новое значение темпы
-* @throw Не корректное значение, выбросит исключение invalid_argument
-* @return Ссылку на объект класса
-*/
-
-DailyForecast& DailyForecast::SetData(int data)
+void check_date(int date)
 {
-	if (data > 31 || data < 1)
+	if (date > 31 || date < 1)
 	{
 		throw std::invalid_argument("Error\n");
 	}
-	this->data = data;
-	return *this;
 }
 
-/**
-* @brief Сеттер, который меняет осадки
-* @param n Новое значение осадков
-* @throw Не корректное значение, выбросит исключение invalid_argument
-* @return Ссылку на объект класса
-*/
+DailyForecast& DailyForecast::SetDate(int date)
+{
+	check_date(date);
+	this->date = date;
+	return *this;
+}
+void DailyForecast::check_precipitation(double n)
+{
+	if (n > maxPrecipitation || n != 0 && 
+		(weather == weather_type::sunny ||weather == weather_type::cloudy))
+	{
+		throw std::invalid_argument("Error\n");
+	}
+}
 
 DailyForecast& DailyForecast::SetPrecipitation(double n)
 {
-	if (n > 1500 || n != 0 && (weather == "sunny" || weather == "cloudy"))
-	{
-		throw std::invalid_argument("Error\n");
-	}
+	check_precipitation(n);
 	precipitation = n;
 	return *this;
 }
 
-bool function(double x, double y, double z)
+DailyForecast& DailyForecast::SetWeather(weather_type weather)
 {
-	if (x > 0 || y > 0 || z > 0)
-	{
-		return false;
-	}
-	return true;
-}
-
-bool correct(std::string str)
-{
-	if (str == "sunny" || str == "rain" || str == "snow" || str == "cloudy")
-	{
-		return true;
-	}
-	return false;
-}
-
-/**
-* @brief Сеттер, который меняет погоду
-* @param weather Новое значение осадков
-* @throw Не корректное значение, выбросит исключение invalid_argument
-* @return Ссылку на объект класса
-*/
-
-DailyForecast& DailyForecast::SetWeather(std::string weather)
-{
-	if (precipitation != 0.0 && (weather == "sunny" || weather == "cloudy" ) || 
-		function(morningT, dayT, eveningT) == false && weather == "snow" || correct(weather) == false)
+	if (precipitation != 0 && (weather == weather_type::sunny || weather == weather_type::cloudy)
+		|| weather_type::snow == weather && 
+		(dayT > 0 || morningT > 0 || eveningT > 0))
 	{
 		throw std::invalid_argument("Error\n");
 	}
@@ -197,239 +109,98 @@ DailyForecast& DailyForecast::SetWeather(std::string weather)
 	return *this;
 }
 
-/**
-* @brief Геттер, который возвращает дату
-* @throw Не корректное значение, выбросит исключение invalid_argument
-* @return Дата
-*/
-
-int DailyForecast::GetData() const
+int DailyForecast::GetDate() const
 {
-	if (data > 31 || data < 1)
-	{
-		throw std::invalid_argument("");
-	}
-	return data;
+	return date;
 }
 
-/**
-* @brief Геттер, который возвращает погоду
-* @throw Не корректное значение, выбросит исключение invalid_argument
-* @return Погода
-*/
-
-std::string DailyForecast::GetWeather() const
+weather_type DailyForecast::GetWeather() const
 {
-	if (correct(weather) == false)
-	{
-		throw std::invalid_argument("");
-	}
 	return weather;
 }
 
-/**
-* @brief Геттер, который возвращает температуру на выбор
-* @param number номер погоды на выбор(утро, день или вечер)  
-* @return Температура
-*/
-
-double DailyForecast::GetT(int number) const
+double DailyForecast::GetMorningT() const
 {
-	if (number == 1)
-	{
-		return morningT;
-	}
-	if (number == 2)
-	{
-		return dayT;
-	}
-	return eveningT;
+	return morningT;
 }
 
-/**
-* @brief Геттер, который возвращает осадки
-* @return Осадки
-*/
+double DailyForecast::GetDayT() const
+{
+	return dayT;
+}
+
+double DailyForecast::GetEveningT() const
+{
+	return eveningT;
+}
 
 double DailyForecast::GetPr() const
 {
 	return precipitation;
 }
 
-int help(std::string str)
+weather_type help(int number)
 {
-	if (str == "snow")
+	if (number == 1)
 	{
-		return 4;
+		return weather_type::sunny;
 	}
-	if (str == "sunny")
+	else if (number == 2)
 	{
-		return 1;
+		return weather_type::cloudy;
 	}
-	if (str == "rain")
+	else if (number == 3)
 	{
-		return 3;
+		return weather_type::rain;
 	}
-	if (str == "cloudy")
+	else
 	{
-		return 2;
+		return weather_type::snow;
 	}
 }
 
-/**
-* @brief Функция проверки данных для первого конструктора, чтобы не выбрасывать исключение внутри него
-* @param data дата
-* @param weather погода
-* @param T1 утренняя температра 
-* @param T2 дневная температура
-* @param T3 вечерняя температура
-* @precipication осадки
-* @throw Некорректное значение
-*/
-
-void proverka(int data, std::string weather, double T1, double T2, double T3, double precipitation)
+DailyForecast& DailyForecast::input()
 {
-	if (data < 0 || data > 31 || T1 < -100 || T1 > 60 || T2 < -100 || T2 > 60 ||
-		T3 < -100 || T3 > 60 || precipitation > 1500)
-	{
-		throw std::invalid_argument("Invalid argument\n");
-	}
-	else if ((weather == "sunny" || weather == "cloudy") && precipitation != 0)
-	{
-		throw std::invalid_argument("Invalid argument\n");
-	}
-	else if (weather == "snow" && (T1 > 0 || T2 > 0 || T3 > 0))
-	{
-		throw std::invalid_argument("Invalid argument\n");
-	}
+	std::cout << "Input date :" << std::endl;
+	date = getNum <int>(1, 31);
+	std::cout << "Input temperature: " << std::endl;
+	double T = getNum <double>(-100, 60);
+	eveningT = dayT = morningT = T;
+	std::cout << "Input precepition:" << std::endl;
+	precipitation = getNum <double>(0, 1500);
+	std::cout << "Input weather: " << std::endl <<
+		"If you want sunny - 1, clody - 2, rain - 3, snow - 4" << std::endl;
+	int number = getNum <int>(1, 4);
+	weather = help(number);
+	return *this;
 }
-
-void proverka_two(int data, double temperature, double precipitation)
-{
-	if (data < 1 || data > 31 || temperature < -100 || temperature > 60 || precipitation > 1500)
-	{
-		throw std::invalid_argument("Error\n");
-	}
-}
-
-std::string push()
-{
-	std::string str;
-	while (true)
-	{
-		std::cin >> str;
-		if (std::cin.eof())
-		{
-			throw std::runtime_error("EOF\n");
-		}
-		else if (std::cin.bad())
-		{
-			throw std::runtime_error("Impossible bad\n");
-		}
-		else if (correct(str) == false)
-		{
-			std::cin.clear(); 
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "You are wrong; repeat please!" << std::endl;
-		}
-		else if (correct(str) == true)
-		{
-			return str;
-		}
-	}
-}
-
-/**
-* @brief Метод ввода, в котором вызывается один из конструкторов на выбор
-* @throw Некорректное значение
-* @throw Ошибка времени выполнения
-* @return Экзмепляр класса
-*/
-
-DailyForecast DailyForecast::input()
-{
-	std::cout << "Input number of kont" << std::endl;
-	int x = getNum <int>(1, 2);
-	try
-	{
-		std::cout << "Input data:" << std::endl;
-		int d = getNum <int>(1, 31);
-		std::cout << "Input precipitation" << std::endl;
-		double pr = getNum <double>(0);
-		if (x == 1)
-		{
-			std::cout << "Input three temperature: " << std::endl;
-			double T1 = getNum <double>(-100, 60), T2 = getNum <double>(-100, 60), T3 = getNum<double>(-100, 60);
-			std::cout << "Input weather" << std::endl;
-			std::string str = push();
-			proverka(d, str, T1, T2, T3, pr);
-			DailyForecast a(d, T1, T2, T3, str, pr);
-			return a;
-		}
-		if (x == 2)
-		{
-			std::cout << "Input temperature: " << std::endl;
-			double T = getNum <double>(-100, 60);
-			proverka_two(d, T, pr);
-			DailyForecast a(d, T, pr);
-			return a;
-		}
-	}
-	catch (const std::invalid_argument& e)
-	{
-		throw;
-	}
-	catch (const std::runtime_error& e)
-	{
-		throw std::runtime_error("UPSS\n");
-	}
-}
-
-/**
-* @brief Перегрузка оператора +=
-* @param one Константная ссылка
-* @throw Некорректное значение
-* @throw Некорректное значение 
-* @return Ссылку на экзмепляр класса
-*/
-
 
 DailyForecast& DailyForecast::operator+=(const DailyForecast& one)
 {
-	if (this->data != one.data)
+	if (this->date != one.date)
 	{
 		throw std::invalid_argument("Another data\n");
 	}
-	this->data = one.data;
+	this->date = one.date;
 	this->morningT = (this->morningT + one.morningT) / 2;
 	this->dayT = (this->dayT + one.dayT) / 2;
 	this->eveningT = (this->eveningT + one.eveningT) / 2;
 	this->precipitation = (this->precipitation + one.precipitation) / 2;
-	int s1 = help(this->weather), s2 = help(one.weather);
-	if(s1 < s2)
+	if (this->weather < one.weather)
 	{
-		if (function(dayT, morningT, eveningT) == false && one.weather == "snow")
-		{
-			throw std::invalid_argument("Incorrect\n");
-		}
 		this->weather = one.weather;
 	}
+	check_precipitation(this->precipitation);
 	return *this;
 }
 
-/**
-* @brief Перегрузка оператора <=>
-* @param one Константная ссылка
-* @return Значение типа std::strong_ordering 
-*/
-
 std::strong_ordering DailyForecast::operator<=>(const DailyForecast& one) const
 {
-	if (data < one.data)
+	if (date < one.date)
 	{
 		return std::strong_ordering::less;
 	}
-	else if(data > one.data)
+	else if (date > one.date)
 	{
 		return std::strong_ordering::greater;
 	}
@@ -439,12 +210,29 @@ std::strong_ordering DailyForecast::operator<=>(const DailyForecast& one) const
 	}
 }
 
-/**
-* @brief Метод вывода
-*/
+void print_weather(weather_type a)
+{
+	if (a == weather_type::sunny)
+	{
+		std::cout << "sunny";
+	}
+	else if (a == weather_type::cloudy)
+	{
+		std::cout << "cloudy";
+	}
+	else if (a == weather_type::rain)
+	{
+		std::cout << "rain";
+	}
+	else
+	{
+		std::cout << "snow";
+	}
+}
 
 void DailyForecast::print()
 {
-	std::cout << data << " " << morningT << " " << dayT << " " << eveningT << " " << weather << " "
-		<< precipitation << std::endl;
+	std::cout << date << " " << morningT << " " << dayT << " " << eveningT << " "; 
+	print_weather(weather);
+	std::cout << " " << precipitation << std::endl;
 }

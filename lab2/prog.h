@@ -1,102 +1,54 @@
-#ifndef _proh_h_
-#define _prog_h_
+#ifndef _DailyForecast_h_
+#define _DailyForecast_h_
 
 #include <iostream>
 #include <string>
 #include <climits>
 #include <compare>
 
-/**
-* @brief Класс ежедневного проггоза погоды
-*/
+enum class weather_type
+{
+	sunny,
+	cloudy,
+	rain,
+	snow
+};
 
 class DailyForecast
 {
 private:
-	//! Дата прогноза погоды
-	int data;
-	//! Температура утром
+	static const int maxDate = 31;
+	static const int minDate = 1;
+	static constexpr double maxPrecipitation = 1500;
+	static constexpr double minTemperature = -100;
+	static constexpr double maxTemperature = 60;
+	int date;
 	double morningT;
-	//! Температура днем
 	double dayT;
-	//! Температура  вечером 
 	double eveningT;
-	//! Погода 
-	std::string weather;
-	//! Осадки
+	weather_type weather;
 	double precipitation;
 public:
-	/**
-	* @brief Конструктор по умолчанию 
-	*/
-	DailyForecast();
-	/**
-	* @brief Конструктор первая вариация 
-	*/
-	DailyForecast(int, double, double, double, std::string, double);
-	/**
-	* @brief Конструктор вторая вариация
-	*/
+	DailyForecast(int, double, double, double, weather_type, double);
 	DailyForecast(int, double, double);
-	/**
-	* @brief Сеттер, который меняет погоду днем
-	*/
+	void check_temperature_snow(double);
+	void check_precipitation(double);
 	DailyForecast& SetDayT(double);
-	/**
-	* @briefСеттер, который меняет погоду утром
-	*/
 	DailyForecast& SetMorningT(double);
-	/**
-	* @brief Сеттер, который меняет погоду вечером
-	*/
 	DailyForecast& SetEveningT(double);
-	/**
-	* @brief Сеттер, который меняет дату
-	*/
-	DailyForecast& SetData(int);
-	/**
-	* @brief Сеттер, который меняет осадки
-	*/
+	DailyForecast& SetDate(int);
 	DailyForecast& SetPrecipitation(double);
-	/**
-	* @brief Сеттер, который меняет погоду
-	*/
-	DailyForecast& SetWeather(std::string);
-	/**
-	* @brief Геттер, который возвращает дату
-	*/
-	int GetData() const;
-	/**
-	* @brief Геттер, который возвращает погоду
-	*/
-	std::string GetWeather()const;
-	/**
-	* @brief Геттер, который возвращает погоду на выбор
-	*/
-	double GetT (int) const;
-	/**
-	* @brief Геттер, который возвращает осадки
-	*/
+	DailyForecast& SetWeather(weather_type);
+	int GetDate() const;
+	weather_type GetWeather()const;
+	double GetEveningT() const;
+	double GetDayT() const;
+	double GetMorningT() const;
 	double GetPr() const;
-	/**
-	* @brief Метод, который возвращает среднюю температуру 
-	*/
-	double sr_zn();
-	/**
-	* @brief Метод ввода, в котором вызывается один из конструкторов на выбор
-	*/
-	static DailyForecast input();
-	/**
-	* @brief  Перегрузка оператора +=
-	*/
+	double average_temperature();
+	DailyForecast& input();
 	DailyForecast& operator += (const DailyForecast&);
-	/**
-	* @brief  Перегрузка оператора <=>
-	*/
 	std::strong_ordering operator <=>(const DailyForecast&) const;
-	/**
-	* @brief Метод вывода
-	*/
 	void print();
 };
 
@@ -125,6 +77,6 @@ T getNum(T min = std::numeric_limits<T>::min(), T max = std::numeric_limits<T>::
 	}
 }
 
-std::string push();
+weather_type help(int);
 
-#endif
+#endif 

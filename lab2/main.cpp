@@ -4,9 +4,8 @@
 
 int main()
 {
-	setlocale(LC_ALL, "ru");
 	::testing::InitGoogleTest();
-	DailyForecast one, two;
+	DailyForecast one(1,0,0,0, weather_type::cloudy, 0), two(1,0,0);
 	int number, x;
 	try
 	{
@@ -24,10 +23,7 @@ int main()
 			switch (number)
 			{
 			case 1:
-				std::cout << "Input number of object:" << std::endl;
-				x = getNum <int>(1, 2);
-				if (x == 1) one = DailyForecast::input();
-				else if (x == 2) two = DailyForecast::input();
+				one.input();
 				break;
 			case 2:
 				std::cout << "Input number of dailyForecast:" << std::endl;
@@ -57,8 +53,8 @@ int main()
 				std::cout << "Input number of object" << std::endl;
 				x = getNum <int>(1, 2);
 				double num;
-				if (x == 1) num = one.sr_zn();
-				else if (x == 2)  num = two.sr_zn();
+				if (x == 1) num = one.average_temperature();
+				else if (x == 2)  num = two.average_temperature();
 				std::cout << "sr_zn = " << num << std::endl;
 				break;
 			case 6:
@@ -68,15 +64,15 @@ int main()
 				{
 					std::cout << "Input new data:" << std::endl;
 					x = getNum <int>(0);
-					one.SetData(x);
+					one.SetDate(x);
 					one.print();
 				}
-				else if (x == 2)
+				if (x == 2)
 				{
 					std::cout << "Input new weather:" << std::endl;
-					std::string str = push();
-					one.SetWeather(str);
-					one.print();
+					x = getNum <int>(1, 4);
+					weather_type l = help(x);
+					one.SetWeather(l);
 				}
 				break;
 			case 7:

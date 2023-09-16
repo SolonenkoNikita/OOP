@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\DailyForecast",
+    "\\DailyForecast\\prog",
+    "\\WeatherForecast",
+    "\\WeatherForecast\\include",
+    "\\WeatherForecast\\include\\WeatherForecast",
+    "\\WeatherForecast\\prog"
+  ],
+  "SelectedNode": "\\DailyForecast\\prog\\DailyForecast.cpp",
+  "PreviewInSolutionExplorer": false
+}

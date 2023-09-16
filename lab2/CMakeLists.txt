@@ -12,7 +12,7 @@ add_library(prog STATIC Prog.cpp)
 
 include(FetchContent)
 FetchContent_Declare(
-  googletest
+  googletest 
   URL https://github.com/google/googletest/archive/release-1.11.0.zip
 )
 FetchContent_MakeAvailable(googletest)
