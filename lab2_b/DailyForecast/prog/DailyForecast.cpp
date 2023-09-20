@@ -1,15 +1,19 @@
 #include <iostream>
 #include "DailyForecast/DailyForecast.h"
 
-DailyForecast::DailyForecast(int d, double mT, double dT, double eT,
-	weather_type w, double p) : date(d), morningT(mT), dayT(dT), eveningT(eT),
-								precipitation(p), weather(w)
+DailyForecast::DailyForecast() : morningT(0)
 {
 }
 
-DailyForecast::DailyForecast(int d, double temperature, double p) :date(d), 
-				morningT(temperature), dayT(temperature), eveningT(temperature),
-	precipitation(p)
+DailyForecast::DailyForecast(Date d, double mT, double dT, double eT,
+	weather_type w, double p) : date(d), morningT(mT), dayT(dT), eveningT(eT),
+	precipitation(p), weather(w)
+{
+}
+
+DailyForecast::DailyForecast(Date d, double temperature, double p) : date(d),
+morningT(temperature), dayT(temperature), eveningT(temperature),
+precipitation(p)
 {
 	if (temperature > 0 && p == 0)
 	{
@@ -67,15 +71,15 @@ DailyForecast& DailyForecast::SetMorningT(double a)
 	return *this;
 }
 
-void check_date(int date)
+void check_date(Date date)
 {
-	if (date > 31 || date < 1)
+	if (date.day > 31 || date.day < 1 || date.mount < 1 || date.mount > 12)
 	{
 		throw std::invalid_argument("Error\n");
 	}
 }
 
-DailyForecast& DailyForecast::SetDate(int date)
+DailyForecast& DailyForecast::SetDate(Date date)
 {
 	check_date(date);
 	this->date = date;
@@ -83,8 +87,8 @@ DailyForecast& DailyForecast::SetDate(int date)
 }
 void DailyForecast::check_precipitation(double n)
 {
-	if (n > maxPrecipitation || n != 0 && 
-		(weather == weather_type::sunny ||weather == weather_type::cloudy))
+	if (n > maxPrecipitation || n != 0 &&
+		(weather == weather_type::sunny || weather == weather_type::cloudy))
 	{
 		throw std::invalid_argument("Error\n");
 	}
@@ -99,8 +103,8 @@ DailyForecast& DailyForecast::SetPrecipitation(double n)
 
 DailyForecast& DailyForecast::SetWeather(weather_type weather)
 {
-	if ((weather == weather_type::sunny || weather == weather_type::cloudy)
-		&& precipitation == 0 || weather_type::snow == weather && 
+	if (precipitation != 0 && (weather == weather_type::sunny || weather == weather_type::cloudy)
+		|| weather_type::snow == weather &&
 		(dayT > 0 || morningT > 0 || eveningT > 0))
 	{
 		throw std::invalid_argument("Error\n");
@@ -109,7 +113,7 @@ DailyForecast& DailyForecast::SetWeather(weather_type weather)
 	return *this;
 }
 
-int DailyForecast::GetDate() const
+Date DailyForecast::GetDate() const
 {
 	return date;
 }
@@ -159,49 +163,12 @@ weather_type help(int number)
 	}
 }
 
-/*DailyForecast DailyForecast::input()
-{
-	std::cout << "Input number of kont" << std::endl;
-	int x = getNum <int>(1, 2);
-	try
-	{
-		std::cout << "Input date:" << std::endl;
-		int d = getNum <int>(1, 31);
-		std::cout << "Input precipitation" << std::endl;
-		double pr = getNum <double>(0);
-		if (x == 1)
-		{
-			std::cout << "Input three temperature: " << std::endl;
-			double T1 = getNum <double>(-100, 60), T2 = getNum <double>(-100, 60), T3 = getNum<double>(-100, 60);
-			std::cout << "Input weather" << std::endl;
-			std::string str = push();
-			proverka(d, str, T1, T2, T3, pr);
-			DailyForecast a(d, T1, T2, T3, str, pr);
-			return a;
-		}
-		if (x == 2)
-		{
-			std::cout << "Input temperature: " << std::endl;
-			double T = getNum <double>(-100, 60);
-			proverka_two(d, T, pr);
-			DailyForecast a(d, T, pr);
-			return a;
-		}
-	}
-	catch (const std::invalid_argument& e)
-	{
-		throw;
-	}
-	catch (const std::runtime_error& e)
-	{
-		throw std::runtime_error("UPSS\n");
-	}
-}*/
-
 DailyForecast& DailyForecast::input()
 {
-	std::cout << "Input date :" << std::endl;
-	date = getNum <int>(1, 31);
+	std::cout << "Input date :" << std::endl << "day = " << std::endl;
+	date.day = getNum <int>(1, 31);
+	std::cout << "mount = " << std::endl;
+	date.mount = getNum <int>(1, 12);
 	std::cout << "Input temperature: " << std::endl;
 	double T = getNum <double>(-100, 60);
 	eveningT = dayT = morningT = T;
@@ -216,7 +183,7 @@ DailyForecast& DailyForecast::input()
 
 DailyForecast& DailyForecast::operator+=(const DailyForecast& one)
 {
-	if (this->date != one.date)
+	if (this->date.day != one.date.day || (this->date.mount != one.date.mount))
 	{
 		throw std::invalid_argument("Another data\n");
 	}
@@ -225,36 +192,65 @@ DailyForecast& DailyForecast::operator+=(const DailyForecast& one)
 	this->dayT = (this->dayT + one.dayT) / 2;
 	this->eveningT = (this->eveningT + one.eveningT) / 2;
 	this->precipitation = (this->precipitation + one.precipitation) / 2;
-	int s1 = help(this->weather), s2 = help(one.weather);
-	if (s1 < s2)
+	if (this->weather < one.weather)
 	{
-		if (function(dayT, morningT, eveningT) == false && one.weather == "snow")
-		{
-			throw std::invalid_argument("Incorrect\n");
-		}
 		this->weather = one.weather;
 	}
+	check_precipitation(this->precipitation);
 	return *this;
 }
 
 std::strong_ordering DailyForecast::operator<=>(const DailyForecast& one) const
 {
-	if (date < one.date)
+	if (date.day < one.date.day)
 	{
 		return std::strong_ordering::less;
 	}
-	else if (date > one.date)
+	else if (date.day > one.date.day)
 	{
 		return std::strong_ordering::greater;
 	}
-	else
+	else if(date.day == one.date.day && date.mount == one.date.mount)
 	{
 		return std::strong_ordering::equal;
 	}
 }
 
+DailyForecast& DailyForecast::operator=(const DailyForecast& one)
+{
+	this->date.day = one.date.day;
+	this->date.mount = one.date.mount;
+	this->weather = one.weather;
+	this->dayT = one.dayT;
+	this->morningT = one.morningT;
+	this->eveningT = one.eveningT;
+	this->precipitation = one.precipitation;
+	return *this;
+}
+
+void print_weather(weather_type a)
+{
+	if (a == weather_type::sunny)
+	{
+		std::cout << "sunny";
+	}
+	else if (a == weather_type::cloudy)
+	{
+		std::cout << "cloudy";
+	}
+	else if (a == weather_type::rain)
+	{
+		std::cout << "rain";
+	}
+	else
+	{
+		std::cout << "snow";
+	}
+}
+
 void DailyForecast::print()
 {
-	std::cout << date << " " << morningT << " " << dayT << " " << eveningT << " " << weather << " "
-		<< precipitation << std::endl;
+	std::cout << date.day << " " << date.mount << " " << morningT << " " << dayT << " " << eveningT << " ";
+	print_weather(weather);
+	std::cout << " " << precipitation << std::endl;
 }

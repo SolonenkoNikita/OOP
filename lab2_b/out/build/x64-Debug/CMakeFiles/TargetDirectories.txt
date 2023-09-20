@@ -1,8 +1,0 @@
-D:/VisualStd/OOP/lab2_b/out/build/x64-Debug/CMakeFiles/edit_cache.dir
-D:/VisualStd/OOP/lab2_b/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
-D:/VisualStd/OOP/lab2_b/out/build/x64-Debug/DailyForecast/CMakeFiles/DailyForecast.dir
-D:/VisualStd/OOP/lab2_b/out/build/x64-Debug/DailyForecast/CMakeFiles/edit_cache.dir
-D:/VisualStd/OOP/lab2_b/out/build/x64-Debug/DailyForecast/CMakeFiles/rebuild_cache.dir
-D:/VisualStd/OOP/lab2_b/out/build/x64-Debug/WeatherForecast/CMakeFiles/WeatherForecast.dir
-D:/VisualStd/OOP/lab2_b/out/build/x64-Debug/WeatherForecast/CMakeFiles/edit_cache.dir
-D:/VisualStd/OOP/lab2_b/out/build/x64-Debug/WeatherForecast/CMakeFiles/rebuild_cache.dir

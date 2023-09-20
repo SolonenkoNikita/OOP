@@ -6,6 +6,12 @@
 #include <climits>
 #include <compare>
 
+struct Date
+{
+	int day;
+	int mount;
+};
+
 enum class weather_type
 {
 	sunny,
@@ -17,38 +23,37 @@ enum class weather_type
 class DailyForecast
 {
 private:
-	static const int maxDate = 31;
-	static const int minDate = 1;
 	static constexpr double maxPrecipitation = 1500;
 	static constexpr double minTemperature = -100;
 	static constexpr double maxTemperature = 60;
-	int date;
+	Date date;
 	double morningT;
 	double dayT;
 	double eveningT;
 	weather_type weather;
 	double precipitation;
 public:
-	DailyForecast(int, double, double, double, weather_type, double);
-	DailyForecast(int, double, double);
+	DailyForecast();
+	DailyForecast(Date, double, double, double, weather_type, double);
+	DailyForecast(Date, double, double);
 	void check_temperature_snow(double);
 	void check_precipitation(double);
 	DailyForecast& SetDayT(double);
 	DailyForecast& SetMorningT(double);
 	DailyForecast& SetEveningT(double);
-	DailyForecast& SetDate(int);
+	DailyForecast& SetDate(Date);
 	DailyForecast& SetPrecipitation(double);
 	DailyForecast& SetWeather(weather_type);
-	int GetDate() const;
+	Date GetDate() const;
 	weather_type GetWeather()const;
 	double GetEveningT() const;
 	double GetDayT() const;
 	double GetMorningT() const;
 	double GetPr() const;
 	double average_temperature();
-	//static DailyForecast input();
 	DailyForecast& input();
 	DailyForecast& operator += (const DailyForecast&);
+	DailyForecast& operator = (const DailyForecast&);
 	std::strong_ordering operator <=>(const DailyForecast&) const;
 	void print();
 };
