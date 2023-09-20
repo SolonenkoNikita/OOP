@@ -3,7 +3,5 @@ project(Dialogue)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable (Dialogue   source/main.cpp
-							source/mainC.cpp)
-
-target_link_libraries(Dialogue WeatherForecast WeatherForecast_C)
+add_executable (Dialogue   source/main.cpp)
+target_link_libraries(Dialogue WeatherForecast)

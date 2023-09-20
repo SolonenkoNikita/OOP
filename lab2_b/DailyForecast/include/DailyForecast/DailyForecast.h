@@ -51,11 +51,12 @@ public:
 	double GetMorningT() const;
 	double GetPr() const;
 	double average_temperature();
-	DailyForecast& input();
+	//DailyForecast& input();
+	friend std::istream& operator>>(std::istream&, DailyForecast&);
 	DailyForecast& operator += (const DailyForecast&);
 	DailyForecast& operator = (const DailyForecast&);
 	std::strong_ordering operator <=>(const DailyForecast&) const;
-	void print();
+	friend std::ostream& operator<<(std::ostream&, const DailyForecast&);
 };
 
 template <class T>

@@ -16,14 +16,11 @@ WeatherForecast::WeatherForecast(size_t count, DailyForecast one[])
 	{
 		throw std::runtime_error("Error\n");
 	}
-	for (int i = 0; i < count; i++)
-	{
-		data[i] = one[i];
-		csize++;
-	}
+	std::copy(one, one + count, data);
+	csize += count;
 }
 
-WeatherForecast& WeatherForecast::input()
+/*WeatherForecast& WeatherForecast::input()
 {
 	std::cout << "How many number do you want to input?" << std::endl;
 	int x = getNum <int>(0);
@@ -37,14 +34,40 @@ WeatherForecast& WeatherForecast::input()
 	}
 	csize += x;
 	return *this;
+}*/
+
+std::istream& operator>>(std::istream& s, WeatherForecast& w)
+{
+	int x;
+	s >> x;
+	if (s.good())
+	{
+		if (x < w.msize)
+		{
+			for (int i = 0; i < x; i++)
+			{
+				s >> w.data[i];
+			}
+			w.csize += x;
+		}
+		else
+		{
+			s.setstate(std::ios::failbit);
+		}
+	}
+	return s;
 }
 
-void WeatherForecast::print() const
+std::ostream& operator<<(std::ostream& s, const WeatherForecast& w)
 {
-	for (int i = 0; i < csize; i++)
+	for (int i = 0; i < w.csize; i++)
 	{
-		data[i].print();
-		std::cout << std::endl;
+		for (int i = 0; i < w.csize; i++)
+		{
+			s << w.data[i];
+			s << std::endl;
+		}
+		return s;
 	}
 }
 

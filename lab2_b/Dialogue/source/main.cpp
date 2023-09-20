@@ -28,10 +28,11 @@ int main()
 			switch (number)
 			{
 				case 1:
-					w2.input();
+					std::cout << "Input number of elem by data: \n";
+					std::cin >> w2;
 					break;
 				case 2:
-					w1.print();
+					std::cout << w1;
 					break;
 				case 3:
 					w1.sortirovka();
@@ -46,8 +47,11 @@ int main()
 					break;
 				case 6:
 					std::cout << "Input new DailyForecast:\n";
-					l.input();
-					w1 += l;
+					std::cin >> l;
+					if (!std::cin.good()) std::cout << "Your input is shit\n";
+					else if (std::cin.bad()) throw std::runtime_error("");
+					else if (std::cin.eof()) throw std::runtime_error("");
+					else w1 += l;
 					break;
 				case 7:
 					std::cout << "Input index:\n";

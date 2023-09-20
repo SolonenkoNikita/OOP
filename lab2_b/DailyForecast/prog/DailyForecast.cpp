@@ -163,7 +163,7 @@ weather_type help(int number)
 	}
 }
 
-DailyForecast& DailyForecast::input()
+/*DailyForecast& DailyForecast::input()
 {
 	std::cout << "Input date :" << std::endl << "day = " << std::endl;
 	date.day = getNum <int>(1, 31);
@@ -179,6 +179,33 @@ DailyForecast& DailyForecast::input()
 	int number = getNum <int>(1, 4);
 	weather = help(number);
 	return *this;
+}*/
+
+std::istream& operator>>(std::istream& s, DailyForecast& d)
+{
+	s >> d.date.day >> d.date.mount;
+	if (s.good())
+	{
+		if (d.date.day <= 31 || d.date.day >= 1 && d.date.mount >= 1 || d.date.mount <= 31)
+		{
+			s >> d.morningT >> d.dayT >> d.eveningT >> d.precipitation;
+			int number;
+			s >> number;
+			if (number >= 1 && number <= 4)
+			{
+				d.weather = help(number);
+			}
+			else
+			{
+				s.setstate(std::ios::failbit);
+			}
+		}
+		else
+		{
+			s.setstate(std::ios::failbit);
+		}
+	}
+	return s;
 }
 
 DailyForecast& DailyForecast::operator+=(const DailyForecast& one)
@@ -248,9 +275,10 @@ void print_weather(weather_type a)
 	}
 }
 
-void DailyForecast::print()
+std::ostream& operator<<(std::ostream& s, const DailyForecast& d)
 {
-	std::cout << date.day << " " << date.mount << " " << morningT << " " << dayT << " " << eveningT << " ";
-	print_weather(weather);
-	std::cout << " " << precipitation << std::endl;
+	s << d.date.day << " " << d.date.mount << " " << d.morningT << " " << d.dayT << " " << d.eveningT << " ";
+	print_weather(d.weather);
+	s << " " << d.precipitation << std::endl;
+	return s;
 }

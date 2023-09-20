@@ -22,8 +22,10 @@ enable_testing()
 
 add_executable (Tests   source/main.cpp
                         source/TestCase1.cpp
-                        source/TestCase2.cpp)
+                        source/TestCase2.cpp 
+                        source/TestCase3.cpp)
 
 target_link_libraries(Tests gtest
                             gtest_main
+                            WeatherForecast_C
                             WeatherForecast)
