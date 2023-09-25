@@ -4,23 +4,17 @@
 
 namespace Prog3 {
 
-	WeatherForecast::WeatherForecast(const DailyForecast& one) : data(new DailyForecast[msize]())
+	WeatherForecast::WeatherForecast(const DailyForecast& one) : data(new DailyForecast[max_size]()), csize(1)
 	{
-		data[csize] = one;
-		csize++;
+		data[0] = one;
 	}
 
-	WeatherForecast::WeatherForecast(size_t count, const DailyForecast* array) : data(new DailyForecast[msize]())
+	WeatherForecast::WeatherForecast(size_t count, const DailyForecast* array) : data(new DailyForecast[max_size]()), csize(count)
 	{
 		std::copy(array, array + count, data);
-		csize += count;
 	}
 
-	WeatherForecast::WeatherForecast(const WeatherForecast& w) : csize(w.csize)
-	{
-		data = new DailyForecast[msize]();
-		std::copy(w.data, w.data + w.csize, data);
-	}
+	WeatherForecast::WeatherForecast(const WeatherForecast& w) : WeatherForecast(w.csize, w.data) {}
 
 	WeatherForecast::WeatherForecast(WeatherForecast&& w) noexcept : csize(w.csize), data(w.data)
 	{
@@ -46,8 +40,8 @@ namespace Prog3 {
 	{
 		if (this != &w)
 		{
+			DailyForecast* d = new DailyForecast[max_size]();
 			csize = w.csize;
-			DailyForecast* d = new DailyForecast[msize]();
 			delete[] data;
 			data = d;
 			std::copy(w.data, w.data + w.csize, data);
@@ -59,8 +53,7 @@ namespace Prog3 {
 	{
 		for (int i = 0; i < w.csize; i++)
 		{
-			s << w.data[i];
-			s << std::endl;
+			s << w.data[i] << "\n";
 		}
 		return s;
 	}
@@ -71,7 +64,7 @@ namespace Prog3 {
 		s >> x;
 		if (s.good())
 		{
-			if (x < w.msize)
+			if (x < w.max_size)
 			{
 				for (int i = 0; i < x; i++)
 				{
@@ -89,7 +82,7 @@ namespace Prog3 {
 
 	DailyForecast& WeatherForecast::operator[](int index)
 	{
-		if (index < 0 || index >= msize || index >= csize)
+		if (index < 0 || index >= max_size || index >= csize)
 		{
 			throw std::invalid_argument("Invalid\n");
 		}
@@ -98,7 +91,7 @@ namespace Prog3 {
 
 	WeatherForecast& WeatherForecast::operator+=(const DailyForecast& one)
 	{
-		if (csize >= msize)
+		if (csize >= max_size)
 		{
 			throw std::runtime_error("Error\n");
 		}
@@ -148,16 +141,12 @@ namespace Prog3 {
 
 	void WeatherForecast::unification()
 	{
-		if (csize <= 1)
-		{
-			throw std::invalid_argument("Error\n");
-		}
 		std::stack <int> st;
 		for (int i = 0; i < csize - 1; i++)
 		{
 			for (int j = i + 1; j < csize; j++)
 			{
-				if ((data[i] <=> data[j]) == std::strong_ordering::equal)
+				if ((data[i] < data[j]))
 				{
 					st.push(j);
 				}

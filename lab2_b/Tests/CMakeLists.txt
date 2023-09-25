@@ -20,6 +20,9 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
+#add_compile_options(--coverage)
+#add_link_options(--coverage)
+
 add_executable (Tests   source/main.cpp
                         source/TestCase1.cpp
                         source/TestCase2.cpp 
@@ -29,3 +32,5 @@ target_link_libraries(Tests gtest
                             gtest_main
                             WeatherForecast_C
                             WeatherForecast)
+
+#add_test(Tests)

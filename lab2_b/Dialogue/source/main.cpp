@@ -9,7 +9,7 @@ int main()
 	DailyForecast d_ar1[2];
 	d_ar1[0] = d1;
 	d_ar1[1] = d2;
-	WeatherForecast w1(2, d_ar1), w2(d2), w3;
+	WeatherForecast w1(2, d_ar1), w2(d2), w3, w4;
 	int number, x;
 	try
 	{
@@ -29,7 +29,7 @@ int main()
 			{
 				case 1:
 					std::cout << "Input number of elem by data: \n";
-					std::cin >> w2;
+					std::cin >> w1;
 					break;
 				case 2:
 					std::cout << w1;

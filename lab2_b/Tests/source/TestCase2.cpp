@@ -71,7 +71,7 @@ TEST(MethodsTest, addElem)
 	ASSERT_EQ(3, w.GetCsize());
 }
 
-TEST(ISKL, iskl_test_W)
+TEST(ISKL, iskl_test_W_operator_index)
 {
 	Date d1{ 45 , 5 };
 	DailyForecast one(d1, 25, 120);

@@ -42,11 +42,12 @@ std::istream& operator>>(std::istream& s, WeatherForecast& w)
 	s >> x;
 	if (s.good())
 	{
+		w.csize = 0;
 		if (x < w.msize)
 		{
 			for (int i = 0; i < x; i++)
 			{
-				s >> w.data[i];
+				std::cin >> w.data[i];
 			}
 			w.csize += x;
 		}

@@ -14,18 +14,18 @@ namespace Prog3 {
 	* @param csize - current size
 	* @param data - array with DailyForecast(use dynamic)
 	*/
-
+	
 	class WeatherForecast
 	{
 	private:
-		static constexpr size_t msize = 7;
+		static constexpr size_t max_size = 7;
 		size_t csize{ 0 };
 		DailyForecast* data;
 	public:
 		/**
 		* @brief costructor init data, use new
 		*/
-		WeatherForecast() : data(new DailyForecast[msize]()) {};
+		WeatherForecast() : data(new DailyForecast[max_size]()) {};
 		/**
 		* @brief costructor with one DailyForecast
 		* @param  - const &
@@ -68,6 +68,8 @@ namespace Prog3 {
 		* @return param about this index
 		*/
 		DailyForecast& operator[](int);
+
+
 		/**
 		* @brief function sort
 		*/
