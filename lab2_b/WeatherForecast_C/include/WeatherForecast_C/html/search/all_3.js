@@ -1,4 +1,0 @@
-var searchData=
-[
-  ['weatherforecast_0',['weatherforecast',['../class_prog3_1_1_weather_forecast.html',1,'Prog3::WeatherForecast'],['../class_prog3_1_1_weather_forecast.html#ae770d01c30e9551bbdcb2b2d29170b83',1,'Prog3::WeatherForecast::WeatherForecast()'],['../class_prog3_1_1_weather_forecast.html#a1bf2416aaae704e92e297825f78b1df7',1,'Prog3::WeatherForecast::WeatherForecast(const DailyForecast &amp;)'],['../class_prog3_1_1_weather_forecast.html#ab8b1e9434efe38ecfe2bd1101445a3b0',1,'Prog3::WeatherForecast::WeatherForecast(size_t, const DailyForecast *)'],['../class_prog3_1_1_weather_forecast.html#a3eadb6697e8e14ed7ba3eec871286875',1,'Prog3::WeatherForecast::WeatherForecast(const WeatherForecast &amp;)'],['../class_prog3_1_1_weather_forecast.html#aefc97296ba1ae8d25312af38c75ad87e',1,'Prog3::WeatherForecast::WeatherForecast(WeatherForecast &amp;&amp;) noexcept']]]
-];
