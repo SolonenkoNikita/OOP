@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="WeatherForecast_C"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="msvc8"/>
+		<Option virtualFolders="CMake Files\;CMake Files\DailyForecast\;CMake Files\Dialogue\;CMake Files\DialugueC\;CMake Files\Tests\;CMake Files\cmake-build-debug\;CMake Files\cmake-build-debug\_deps\;CMake Files\cmake-build-debug\_deps\googletest-src\;CMake Files\cmake-build-debug\_deps\googletest-src\googlemock\;CMake Files\cmake-build-debug\_deps\googletest-src\googlemock\cmake\;CMake Files\cmake-build-debug\_deps\googletest-src\googletest\;CMake Files\cmake-build-debug\_deps\googletest-src\googletest\cmake\;CMake Files\WeatherForecast\;CMake Files\WeatherForecast_C\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="D:/VisualStd/OOP/lab2_b/cmake-build-debug/WeatherForecast_C"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f D:\VisualStd\OOP\lab2_b\cmake-build-debug\WeatherForecast_C\Makefile VERBOSE=1 all"/>
+					<CompileFile command="nmake /NOLOGO /f D:\VisualStd\OOP\lab2_b\cmake-build-debug\WeatherForecast_C\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f D:\VisualStd\OOP\lab2_b\cmake-build-debug\WeatherForecast_C\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f D:\VisualStd\OOP\lab2_b\cmake-build-debug\WeatherForecast_C\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="WeatherForecast_C">
+				<Option output="D:/VisualStd/OOP/lab2_b/cmake-build-debug/WeatherForecast_C/WeatherForecast_C.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/VisualStd/OOP/lab2_b/cmake-build-debug/WeatherForecast_C"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="D:/VisualStd/OOP/lab2_b/WeatherForecast_C/include"/>
+					<Add directory="D:/VisualStd/OOP/lab2_b/DailyForecast/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f D:\VisualStd\OOP\lab2_b\cmake-build-debug\WeatherForecast_C\Makefile VERBOSE=1 WeatherForecast_C"/>
+					<CompileFile command="nmake /NOLOGO /f D:\VisualStd\OOP\lab2_b\cmake-build-debug\WeatherForecast_C\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f D:\VisualStd\OOP\lab2_b\cmake-build-debug\WeatherForecast_C\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f D:\VisualStd\OOP\lab2_b\cmake-build-debug\WeatherForecast_C\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="WeatherForecast_C/fast">
+				<Option output="D:/VisualStd/OOP/lab2_b/cmake-build-debug/WeatherForecast_C/WeatherForecast_C.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/VisualStd/OOP/lab2_b/cmake-build-debug/WeatherForecast_C"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="D:/VisualStd/OOP/lab2_b/WeatherForecast_C/include"/>
+					<Add directory="D:/VisualStd/OOP/lab2_b/DailyForecast/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f D:\VisualStd\OOP\lab2_b\cmake-build-debug\WeatherForecast_C\Makefile VERBOSE=1 WeatherForecast_C/fast"/>
+					<CompileFile command="nmake /NOLOGO /f D:\VisualStd\OOP\lab2_b\cmake-build-debug\WeatherForecast_C\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f D:\VisualStd\OOP\lab2_b\cmake-build-debug\WeatherForecast_C\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f D:\VisualStd\OOP\lab2_b\cmake-build-debug\WeatherForecast_C\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/WeatherForecast_C/source/WeatherForecastC.cpp">
+			<Option target="WeatherForecast_C"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/DailyForecast/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\DailyForecast\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/Dialogue/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Dialogue\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/DialugueC/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\DialugueC\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/Tests/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Tests\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/cmake-build-debug/_deps/googletest-src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\googletest-src\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/cmake-build-debug/_deps/googletest-src/googlemock/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\googletest-src\googlemock\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/cmake-build-debug/_deps/googletest-src/googlemock/cmake/gmock.pc.in">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\googletest-src\googlemock\cmake\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/cmake-build-debug/_deps/googletest-src/googlemock/cmake/gmock_main.pc.in">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\googletest-src\googlemock\cmake\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/cmake-build-debug/_deps/googletest-src/googletest/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\googletest-src\googletest\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/cmake-build-debug/_deps/googletest-src/googletest/cmake/Config.cmake.in">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\googletest-src\googletest\cmake\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/cmake-build-debug/_deps/googletest-src/googletest/cmake/gtest.pc.in">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\googletest-src\googletest\cmake\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/cmake-build-debug/_deps/googletest-src/googletest/cmake/gtest_main.pc.in">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\googletest-src\googletest\cmake\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/cmake-build-debug/_deps/googletest-src/googletest/cmake/internal_utils.cmake">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\googletest-src\googletest\cmake\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/WeatherForecast/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\WeatherForecast\"/>
+		</Unit>
+		<Unit filename="D:/VisualStd/OOP/lab2_b/WeatherForecast_C/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\WeatherForecast_C\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
