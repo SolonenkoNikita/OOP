@@ -113,7 +113,7 @@ DailyForecast& DailyForecast::SetWeather(weather_type weather)
 	return *this;
 }
 
-Date DailyForecast::GetDate() const
+const Date& DailyForecast::GetDate() const
 {
 	return date;
 }
