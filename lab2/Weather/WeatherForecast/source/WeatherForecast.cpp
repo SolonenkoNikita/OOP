@@ -81,7 +81,7 @@ namespace Prog3 {
 		return s;
 	}
 
-	DailyForecast& WeatherForecast::operator[](int index)
+	DailyForecast& WeatherForecast::operator[](int index) 
 	{
 		if (index < 0 || index >= max_size || index >= csize)
 		{
