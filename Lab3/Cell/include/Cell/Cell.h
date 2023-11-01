@@ -13,7 +13,7 @@ class Cell
 {
 private:
 	Cor coordinate_;
-	General_Class type_;
+	//General_Class* type_;
 public:
 	Cell() = default;
 };

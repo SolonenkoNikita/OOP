@@ -5,13 +5,12 @@
 
 class General_Class
 {
-private:
-	General_Class container_;
 public:
 	virtual void get_damage(size_t damag) = 0;
 	virtual bool is_died() const = 0;
 	virtual void die(Cell&) = 0;
 	virtual void revival(Cell&) = 0;
+	virtual ~General_Class() = default;
 };
 
 #endif

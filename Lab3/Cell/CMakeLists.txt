@@ -7,4 +7,4 @@ add_library(Cell STATIC source/Cell.cpp)
 
 target_link_libraries(Cell General_Class)
 
-target_include_directories(Creature PUBLIC include)
+target_include_directories(Cell PUBLIC include)

@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_library (Golem  STATIC source/Golem.cpp)
 
-target_link_libraries(Golem General_Methods
+target_link_libraries(Golem General_Class
 							Characteristic
 							Cell)
 
