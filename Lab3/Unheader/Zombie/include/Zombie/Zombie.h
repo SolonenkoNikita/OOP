@@ -1,12 +1,14 @@
 #ifndef _Zombie_H_
 #define _Zombie_H_
 
+#include <Unhead/Unhead.h>
+
 class Zombie : public Unhead
 {
 public:
-	virtual void get_damage(size_t damag);
-	virtual void die(Cell&);
-	virtual void revival(Cell&);
+	Zombie(Creature cr);
+
+	void get_damage(size_t damag) override;
 };
 
 #endif

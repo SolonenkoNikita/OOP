@@ -6,6 +6,6 @@ set(CMAKE_CXX_STANDARD 20)
 add_library (Creature  STATIC source/Creature.cpp)
 
 target_link_libraries(Creature Characteristic 
-										Ability)
+										TableWithAbility)
 
 target_include_directories(Creature PUBLIC include)

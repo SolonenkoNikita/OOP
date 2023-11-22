@@ -35,7 +35,7 @@ TEST(Construct_test_default_string, GetTest)
 
 TEST(Construct_test_init_list_string, GetTest)
 {
-	MyVector<std::string> v = { "a", "b", "c"};
+	MyVector<std::string> v = {"a", "b", "c"};
 	ASSERT_EQ(3, v.size());
 	ASSERT_EQ(6, v.capacity());
 	auto beg = v.begin();

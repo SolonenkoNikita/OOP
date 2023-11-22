@@ -5,4 +5,16 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable (Dialogue source/main.cpp)
 
-target_link_libraries(Dialogue MyVector Characteristic Golem)
+target_link_libraries(Dialogue
+							Alive
+							Characteristic
+							Creator_Creature
+							Creature 
+							DirectorForFile
+							Necromancer
+							Orc
+							Lava
+							#Golem
+							Cell
+							Skeleton
+							Door)

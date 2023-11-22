@@ -1,9 +1,13 @@
 #ifndef _Characteristic_H_
 #define _Characteristic_H_
-//#define ATTRIBUTE_NAME(name) case Atrributes_Names::name: return #name
 
 #include <unordered_map>
+#include <memory>
 #include <iostream>
+
+/**
+* @brief enum class Atrributes_Names
+*/
 
 enum class Atrributes_Names
 {
@@ -14,37 +18,71 @@ enum class Atrributes_Names
 	level_,
 	experience_,
 	damage_,
+	attack_,
+	protection_,
+	skipping_damage_,
+	essence_
 };
 
-//std::string GetAttributeName(Atrributes_Names attribute)
-//{
-//	switch (attribute)
-//	{
-//		ATTRIBUTE_NAME(max_mana_);
-//		ATTRIBUTE_NAME(current_mana_);
-//		ATTRIBUTE_NAME(max_health_);
-//		ATTRIBUTE_NAME(current_health_);
-//		ATTRIBUTE_NAME(level_);
-//		ATTRIBUTE_NAME(experience_);
-//		ATTRIBUTE_NAME(damage_);
-//	default: return "Unknown Attribute";
-//	}
-//}
+std::string GetAttributeName(Atrributes_Names);
+Atrributes_Names GetStringName(std::string);
+
+/**
+*@brief class Characteristic that stores a table of character characteristics and their values
+* @param attributes - library hash table, where the key is enum class
+*/
 
 class Characteristics
 {
 private:
 	std::unordered_map<Atrributes_Names, size_t> attributes;
 public:
-	Characteristics() = default;
-	~Characteristics() = default;
-	Characteristics(const std::initializer_list<std::pair<Atrributes_Names, size_t>> & l);
-	Characteristics& set_characteristic(Atrributes_Names, size_t);
 	void print();
-	std::string GetAttributeName(Atrributes_Names);
-	size_t get_meaning(Atrributes_Names) const;
-};
+public:
+	/**
+	* @brief default constructor
+	*/
 
-//#undef ATTRIBUTE_NAME
+	Characteristics() = default;
+
+	/**
+	* @brief this function return const reference to hash table(std::unordered_map)
+	* @return const std::vector<Base*>&
+	*/
+
+	const std::unordered_map<Atrributes_Names, size_t>& get_attribute() const ;
+
+	/**
+	* @brief constructor with initializet_list
+	* @param l - the const reference by std::initializer_list with std::pair<Atrributes_Names, size_t>
+	*/
+
+	Characteristics(const std::initializer_list<std::pair<Atrributes_Names, size_t>> &l);
+	
+	/**
+	* @brief this function adds a characteristic to the hash table
+	* @param - name 
+	* @param - meaning
+	*/
+
+	Characteristics& set_characteristic(Atrributes_Names, size_t);
+
+	/**
+	* @brief this function return meaning of characteristic by name
+	* @param - name
+	* @return - meaning
+	*/
+
+	size_t get_meaning(Atrributes_Names) const;
+
+	/**
+	* @brief operator ==
+	* @param - const reference to class Charateristic
+	* @return - bool 
+	*/
+
+	bool operator == (const Characteristics&) const;
+
+};
 
 #endif;

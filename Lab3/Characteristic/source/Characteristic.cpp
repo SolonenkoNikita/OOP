@@ -9,7 +9,7 @@ Characteristics::Characteristics(const std::initializer_list<std::pair<Atrribute
 	}
 }
 
-std::string Characteristics::GetAttributeName(Atrributes_Names attribute)
+std::string GetAttributeName(Atrributes_Names attribute)
 {
 	if (attribute == Atrributes_Names::max_mana_)
 	{
@@ -35,23 +35,72 @@ std::string Characteristics::GetAttributeName(Atrributes_Names attribute)
 	{
 		return "experience_";
 	}
+	else if (attribute == Atrributes_Names::skipping_damage_)
+	{
+		return "skipping_damage_";
+	}
+	else if (attribute == Atrributes_Names::protection_)
+	{
+		return "protection_";
+	}
+	else if (attribute == Atrributes_Names::essence_)
+	{
+		return "essence";
+	}
 	else
 	{
 		return "damage_";
 	}
 }
 
-Characteristics& Characteristics::set_characteristic(Atrributes_Names name, size_t  meaning)
+Atrributes_Names GetStringName(std::string attribute)
 {
-	auto it = attributes.find(name);
-	if (it == attributes.end())
+	if (attribute == "max_mana")
 	{
-		attributes.insert(std::make_pair(name, meaning));
+		return Atrributes_Names::max_mana_;
+	}
+	else if (attribute == "current_mana")
+	{
+		return Atrributes_Names::current_mana_;
+	}
+	else if (attribute == "max_health")
+	{
+		return Atrributes_Names::max_health_;
+	}
+	else if (attribute == "current_health")
+	{
+		return Atrributes_Names::current_health_;
+	}
+	else if (attribute == "level")
+	{
+		return Atrributes_Names::level_;
+	}
+	else if (attribute == "experience")
+	{
+		return Atrributes_Names::experience_;
+	}
+	else if (attribute == "skipping_damage")
+	{
+		return Atrributes_Names::skipping_damage_;
+	}
+	else if (attribute == "protection")
+	{
+		return Atrributes_Names::protection_;
+	}
+	else if (attribute == "essence")
+	{
+		return Atrributes_Names::essence_;
 	}
 	else
 	{
-		it->second = meaning;
+		return Atrributes_Names::damage_;
 	}
+}
+
+Characteristics& Characteristics::set_characteristic(Atrributes_Names name, size_t  meaning)
+{
+
+	attributes[name] = meaning;
 	return *this;
 }
 
@@ -68,6 +117,15 @@ void Characteristics::print()
 size_t Characteristics::get_meaning(Atrributes_Names name) const
 {
 	auto it = attributes.find(name);
-	return it->second;
+	return it == attributes.end() ? 0 : it->second;
 }
 
+const std::unordered_map<Atrributes_Names, size_t>& Characteristics::get_attribute() const
+{
+	return attributes;
+}
+
+bool Characteristics::operator==(const Characteristics& ch) const
+{
+	return attributes == ch.attributes;
+}

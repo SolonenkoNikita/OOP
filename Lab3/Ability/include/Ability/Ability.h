@@ -2,12 +2,28 @@
 #define _Ability_H_
 
 #include <Cell/Cell.h>
-#include <Creature/Creature.h>
+#include <Characteristic/Characteristic.h>
 
-class Ability
+/**
+* @brief Abstract Class Ability, that defines the ability call
+*/
+
+class Ability 
 {
 public:
-	void apply(const Creature& caster, Cell& cell) = 0; //caster - кто использует
+	/**
+	* @brief defaut virtual destructor
+	*/
+
+	virtual ~Ability() = default; 
+
+	/**
+	* @brief pure virtual funstion, that performs habilitation
+	* @param caster_characteristic  - characteristics of the one who uses the ability
+	* @param cell - the cell in which the skill will be ability
+	*/
+	virtual void apply(Characteristics& caster_characteristic, Cell& cell) = 0;
+
 };
 
 #endif

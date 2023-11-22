@@ -1,0 +1,26 @@
+Necromancer
+
+hero
+
+max_health 10
+
+current_health 10
+
+max_mana 10
+
+current_mana 10
+
+skipping_damage 10
+
+protection 25 
+
+experience 0
+
+level 1
+
+damage 5
+
+attack 5
+
+essence 0
+  

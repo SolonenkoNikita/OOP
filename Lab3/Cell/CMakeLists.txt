@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_library(Cell STATIC source/Cell.cpp)
 
-target_link_libraries(Cell General_Class)
+target_link_libraries(Cell DamageCaused Obstacle)
 
 target_include_directories(Cell PUBLIC include)

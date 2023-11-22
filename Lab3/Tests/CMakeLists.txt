@@ -21,10 +21,15 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable (Tests   source/main.cpp
-                        source/TestsCase1.cpp)
+                        source/TestsCase1.cpp
+                        source/TestsCase2Characteristic.cpp 
+                        source/TestsCase3Door.cpp
+)
 
 target_link_libraries(Tests gtest
                             gtest_main
+                            Characteristic
+                            Door
+                            OpenDoor
                            MyVector)
 
-#add_test(Tests)

@@ -3,8 +3,8 @@ project(Ability)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_library(Ability STATIC source/Ability.cpp)
+add_library(Ability INTERFACE)
 
-target_link_libraries(Ability Cell Creature)
+target_link_libraries(Ability INTERFACE Cell Characteristic)
 
-target_include_directories(Ability PUBLIC include)
+target_include_directories(Ability INTERFACE include)

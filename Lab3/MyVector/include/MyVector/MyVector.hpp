@@ -5,6 +5,13 @@
 #include <type_traits>
 #include <algorithm>
 
+/**
+* @brief template class MyVector
+* @param data_ - pointer in the type
+* @param size_ - size
+* @param capacity_ - capacity, needed for memory allocation
+*/
+
 template <typename T>
 class MyVector
 {
@@ -18,15 +25,30 @@ public:
 
 	using const_iterator = const T*;
 
+	/**
+	* @brief explicit constructor without parametrs
+	*/
+
 	explicit MyVector() noexcept: size_(0), capacity_(1)
 	{
 		data_ = reinterpret_cast<T*>(new char[1 * sizeof(T)]);
 	};
 
-	explicit MyVector(size_t count)noexcept : capacity_(count * 2), size_(count)
+	/**
+	* @brief explicit constructor with count
+	* @param count - how much memory should be allocated
+	*/
+
+	explicit MyVector(size_t count): capacity_(count * 2), size_(count)
 	{
 		data_ = reinterpret_cast<T*>(new char[(count * 2) * sizeof(T)]);
 	}
+
+	/**
+	* @brief constructor with count and value
+	* @param count - how much memory should be allocated
+	* @param value - how to initialize the entire vector
+	*/
 
 	MyVector(size_t count, const T& value) : MyVector(count)
 	{
@@ -36,11 +58,21 @@ public:
 		}
 	}
 
+	/**
+	* @brief constructor with initializer_list
+	*/
+
 	MyVector(const std::initializer_list<T>& l) : capacity_(l.size() * 2), size_(l.size())
 	{
 		data_ = reinterpret_cast<T*>(new char[(l.size() * 2) * sizeof(T)]);
 		std::uninitialized_copy(l.begin(), l.end(), data_);
 	};
+
+	/**
+	* @brief copy constructor
+	* @param const reference on the MyVector type
+	* @throw - in case of any exception
+	*/
 
 	MyVector(const MyVector<T>& v)
 	{
@@ -59,6 +91,13 @@ public:
 		capacity_ = v.capacity_;
 		std::uninitialized_copy(v.data_, v.data_ + size_,data_);
 	}
+
+	/**
+	* @brief copy operator =
+	* @param const reference on the MyVector type
+	* @throw - in case of any exception
+	* @return reference on the MyVector
+	*/
 
 	MyVector& operator = (const MyVector<T>& v)
 	{
@@ -86,12 +125,21 @@ public:
 		return *this;
 	}
 
+	/**
+	* @brief moving constructor
+	*/
+
 	MyVector(MyVector<T>&& v) noexcept : size_(v.size()), capacity_(v.capacity()), data_(v.data_)
 	{
 		v.capacity_ = 0;
 		v.size_ = 0;
 		v.data_ = nullptr;
 	}
+
+	/**
+	* @brief moving operator =
+	* @param rvalue reference on the MyVector
+	*/
 
 	MyVector& operator =(MyVector<T>&& v) noexcept
 	{
@@ -105,13 +153,17 @@ public:
 		return *this;
 	}
 
+	/**
+	* @brief destructor
+	*/
+
 	~MyVector()
 	{
 		clear();
 		deallocate();
 	}
 	
-	void deallocate()
+	void deallocate() noexcept
 	{
 		delete[] reinterpret_cast<char*>(data_);
 		data_ = nullptr;
@@ -119,16 +171,27 @@ public:
 
 	void clear() noexcept
 	{
-		for (std::size_t i = 0; i < size_; i++) {
+		for (std::size_t i = 0; i < size_; i++) 
+		{
 			data_[i].~T();
 		}
 		size_ = 0;
 	}
 
+	/**
+	* @brief method returning size
+	* @return size
+	*/
+
 	constexpr size_t size() const noexcept
 	{
 		return size_;
 	}
+
+	/**
+	* @brief method returning capacity
+	* @return capacity
+	*/
 
 	constexpr size_t capacity() const noexcept
 	{
@@ -193,11 +256,22 @@ public:
 		++size_;
 	}
 
-	void pop_back()
+	/**
+	* @brief removing an element from the end
+	*/
+
+	void pop_back() noexcept 
 	{
 		(data_ + size_)->~T();
 		size_--;
 	}
+
+	/**
+	* @brief inserting an element by index
+	* @param index - index for insert
+	* @param value - value for insert 
+	* @throw std::runtime_error
+	*/
 
 	void insert(const int index, const T& value)
 	{
@@ -217,12 +291,21 @@ public:
 		++size_;
 	}
 
+	/**
+	* @brief using std::swap
+	*/
+
 	void my_swap(T& one, T& two)
 	{
 		T t = std::move(one);
 		one = std::move(two);
 		two = std::move(t);
 	}
+
+	/**
+	* @brief swaps two vectors
+	* @param reference on MyVector
+	*/
 
 	void swap(MyVector<T>& v) noexcept
 	{
@@ -232,10 +315,21 @@ public:
 		swap(capacity_, v.capacity_);
 	}
 
+	/**
+	* @brief returns a reference to the first element
+	* @return reference
+	*/
+
 	T& front()
 	{
 		return data_[0];
 	}
+
+	/**
+	* @brief returns a reference to the last element
+	* @return reference
+	* @throw std::runtime_error
+	*/
 
 	T& back()
 	{
@@ -246,25 +340,51 @@ public:
 		throw std::runtime_error("Vector is empty\n");
 	}
 
+	/**
+	* @brief returns a pointer to the first element
+	* @return pointer 
+	*/
+
 	T* data()
 	{
 		return &data_[0];
 	}
 
+	/**
+	* @brief checks the emptiness of the vector
+	* @return bool
+	*/
+
 	bool empty()
 	{
-		return size_ <= 0 ? false : true;
+		return size_ == 0;
 	}
+
+	/**
+	* @brief operator[] returns a  reference by index
+	* @return T&
+	*/
 
 	T& operator[](const int index)
 	{
 		return data_[index];
 	}
 
+	/**
+	* @brief const operator[] returns a const reference by index
+	* @return const T&
+	*/
+
 	const T& operator [] (const int index) const
 	{
 		return data_[index];
 	}
+
+	/**
+	* @brief the method returns a reference by index
+	* @return T&
+	* @throw std::out_of_range
+	*/
 
 	T& at(const int index)
 	{
@@ -274,6 +394,12 @@ public:
 		}
 		return data_[index];
 	}
+
+	/**
+	* @brief the method returns a const reference by index
+	* @return const T&
+	* @throw std::out_of_range
+	*/
 
 	const T& at(const int index) const
 	{
@@ -294,6 +420,10 @@ public:
 		return s;
 	}
 
+	/**
+	* @brief a method that outputs the state of a vector to a stream
+	*/
+
 	void print() noexcept
 	{
 		for (size_t i = 0; i < size_; i++)
@@ -302,10 +432,20 @@ public:
 		}
 	}
 
+	/**
+	* @brief returns the iterator to the beginning of the vector
+	* @return iterator
+	*/
+
 	iterator begin() const
 	{
 		return data_;
 	}
+
+	/**
+	* @brief returns the iterator to the ending of the vector
+	* @return iterator
+	*/
 
 	iterator end() const
 	{
