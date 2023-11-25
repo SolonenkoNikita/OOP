@@ -28,7 +28,7 @@ public:
 	* @brief default constructor 
 	*/
 
-	Curse() : level_(0ull), count_(0ull) {};
+	Curse() : level_(0ull), count_(1ull) {};
 
 	/**
 	* @brief override funstion, that performs habilitation

@@ -10,13 +10,7 @@ void Lava::reaction(Cell& cell)
 {
     for (auto& content : cell.get_content())
     {
-        auto r = dynamic_cast<Obstacle*>(content);
-        if (r->is_hard())
-        {
-            if (auto reaction = dynamic_cast<DamageCaused*>(content))
-            {
-                reaction->get_damage(1);
-            }
-        }
+        if (auto reaction = std::dynamic_pointer_cast<DamageCaused>(content))
+            reaction->get_damage(damage_);
     }
 }

@@ -10,9 +10,11 @@
 * @param count_ - the counter is needed to change the level
 */
 
+template<Atrributes_Names meaning, Atrributes_Names meaning_two>
 class Desiccation : public Ability
 {
 private:
+
 	size_t level_;
 
 	size_t count_;
@@ -21,7 +23,10 @@ private:
 	* @brief this function checks the counter and changes the level if necessary
 	*/
 
-	void check();
+	void check()
+	{
+		level_ += (count_ % 10 != 0) ? 0 : 1;
+	}
 public:
 
 	/**
@@ -36,7 +41,24 @@ public:
 	* @param cell - the cell in which the skill will be ability
 	*/
 
-	void apply(Characteristics& caster_characteristic, Cell& cell) override;
+	void apply(Characteristics& caster_characteristic, Cell& cell) override
+	{
+		check();
+		count_++;
+		for (auto& content : cell.get_content())
+		{
+			if (auto alive = std::dynamic_pointer_cast<Alive>(content))
+			{
+				if (alive->is_died())
+				{
+					auto attribute = level_ * alive->get_creature().get_characteristic().get_meaning(meaning_two);
+					std::min(caster_characteristic.get_meaning(meaning), attribute);
+					cell.delete_selection(alive);
+					return;
+				}
+			}
+		}
+	}
 };
 
 #endif

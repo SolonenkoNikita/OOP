@@ -56,11 +56,17 @@ public:
 	* @param - name
 	*/
 
-	void using_ability(Cell&, std::string&) const {};
+	void using_ability(Cell&, std::string&);
 
-	void die(Cell&) override {};
+	void die(Cell&) override;
 
-	void revival(Cell&) override {};
+	void kill(Cell&) override;
+
+	const Creature& get_creature() const;
+
+	Creature& get_creature();
+
+	void revival(Cell&) override;
 
 	/**
 	* @brief default virtual destructor 

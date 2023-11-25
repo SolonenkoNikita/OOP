@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_library(Morphism STATIC source/Morphism.cpp)
 
-target_link_libraries(Morphism Ability)
+target_link_libraries(Morphism Ability Unhead)
 
 target_include_directories(Morphism PUBLIC include)

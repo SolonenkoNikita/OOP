@@ -5,9 +5,8 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_library(Necromancy STATIC source/Necromancy.cpp)
 
-target_link_libraries(Necromancy Utilits Ability Alive Unhead Skeleton Zombie Ghost )
+target_link_libraries(Necromancy Ability Alive Unhead)
 
 target_include_directories(Necromancy PUBLIC include)
 
-#target_include_directories(Necromancy PUBLIC <Unheader>)
 

@@ -14,7 +14,8 @@ target_link_libraries(Dialogue
 							Necromancer
 							Orc
 							Lava
-							#Golem
+							Golem
 							Cell
 							Skeleton
+							Unhead
 							Door)

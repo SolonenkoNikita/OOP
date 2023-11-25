@@ -29,16 +29,25 @@ Creature& Creature::set_fraction(Fraction fr)
 	return *this;
 }
 
-std::shared_ptr<Characteristics> Creature::get_characteristic() const
+Characteristics& Creature::get_characteristic()
 {
-	return std::make_shared<Characteristics>(characteristics_);
+	return characteristics_;
 }
 
-std::shared_ptr<TableWithAbility> Creature::get_abilites() const
+const Characteristics& Creature::get_characteristic() const
 {
-	return std::make_shared<TableWithAbility>(abilites_);
+	return characteristics_;
 }
 
+TableWithAbility& Creature::get_abilites()
+{
+	return abilites_;
+}
+
+const TableWithAbility& Creature::get_abilites() const
+{
+	return abilites_;
+}
 
 Creature& Creature::set_name_creature(const std::string& name)
 {

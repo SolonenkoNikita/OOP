@@ -76,14 +76,13 @@ public:
 	* @return - smart pointer by class Characteristics
 	*/
 
-	std::shared_ptr<Characteristics> get_characteristic() const;
+	Characteristics& get_characteristic();
 
-	/**
-	* @brief this function returns smart pointer to the ability
-	* @return - smart pointer by class TableWithAbility
-	*/
+	const Characteristics& get_characteristic() const;
 
-	std::shared_ptr<TableWithAbility> get_abilites() const;
+	TableWithAbility& get_abilites();
+
+	const TableWithAbility& get_abilites() const;
 
 	/**
 	* @brief this function creates characteristics

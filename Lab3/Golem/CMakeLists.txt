@@ -11,6 +11,7 @@ target_link_libraries(Golem
 							Characteristic
 							Lava
 							Essence
+							Obstacle
 							Cell)
 
 target_include_directories(Golem PUBLIC include)

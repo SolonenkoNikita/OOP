@@ -37,7 +37,7 @@ private:
 	/**
 	* @brief this function doing random 
 	* @return random value
-	*/
+	*/ 
 
 	int roll(); 
 
@@ -69,12 +69,9 @@ public:
 
 	void get_damage(size_t) override;
 
-	/**
-	* @brief this function - getting creature
-	* @return - smart pointer to creature
-	*/
+	Creature& get_creature();
 
-	std::shared_ptr<Creature> get_creature() const;
+	const Creature& get_creature() const;
 
 	/**
 	* @brief this function - changing creature characteristic
@@ -100,7 +97,9 @@ public:
 
 	void die(Cell&) override;
 
-	void revival(Cell&) override {};
+	void revival(Cell&) override;
+
+	void kill(Cell&) override;
 };
 
 #endif

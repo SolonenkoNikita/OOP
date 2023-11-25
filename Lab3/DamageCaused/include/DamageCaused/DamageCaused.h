@@ -20,7 +20,7 @@ public:
 
 	virtual void get_damage(size_t damag) = 0;
 
-	//virtual void kill(Cell&) = 0;
+	virtual void kill(Cell&) = 0;
 
 	/**
 	* @brief pure virtual function to checking dead or not

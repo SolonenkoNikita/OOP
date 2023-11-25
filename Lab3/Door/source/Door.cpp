@@ -29,7 +29,7 @@ bool Door::is_died() const
 
 void Door::die(Cell& cell)
 {
-	cell.add_selection(open());
+	open();
 }
 
 void Door::get_damage(size_t damage)
@@ -39,10 +39,15 @@ void Door::get_damage(size_t damage)
 
 void Door::revival(Cell& cell)
 {
-	cell.add_selection(close());
+	close();
 }
 
 void Door::reaction(Cell& cell)
+{
+	open();
+}
+
+void Door::kill(Cell& cell)
 {
 	open();
 }

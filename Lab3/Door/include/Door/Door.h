@@ -58,6 +58,8 @@ public:
 	
 	void revival(Cell&) override;
 
+	void kill(Cell&) override;
+
 	/**
 	* @brief override function that checks whether a solid is solid or not
 	* @return bool

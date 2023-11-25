@@ -4,7 +4,7 @@ project (Lab3)
 
 add_subdirectory(Ability)
 
-#add_subdirectory (Golem)
+add_subdirectory (Golem)
 
 add_subdirectory(Necromancer)
 
@@ -22,11 +22,9 @@ add_subdirectory(Unheader)
 
 add_subdirectory(Curse)
 
-add_subdirectory(Necromancy)
-
 add_subdirectory(MyVector)
 
-#add_subdirectory(Morphism)
+add_subdirectory(Morphism)
 
 add_subdirectory(Dialogue)
 
@@ -61,3 +59,11 @@ add_subdirectory(Desiccation)
 add_subdirectory(Utilits)
 
 add_subdirectory(UnResponsive)
+
+add_subdirectory(Necromancy)
+
+add_subdirectory(TakeDamage)
+
+add_subdirectory(Controler)
+
+add_subdirectory(Matrix)

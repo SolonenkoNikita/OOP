@@ -10,7 +10,13 @@
 
 class Lava : public Responsive
 {
+
+private:
+	size_t damage_;
+
 public:
+
+	Lava(size_t damage) : damage_(damage) {};
 
 	/**
 	* @brief override function that checks whether a solid is solid or not

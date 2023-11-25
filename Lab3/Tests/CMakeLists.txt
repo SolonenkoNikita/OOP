@@ -24,12 +24,24 @@ add_executable (Tests   source/main.cpp
                         source/TestsCase1.cpp
                         source/TestsCase2Characteristic.cpp 
                         source/TestsCase3Door.cpp
-)
+                        source/TestCase4Abilites.cpp
+    )
 
 target_link_libraries(Tests gtest
                             gtest_main
                             Characteristic
                             Door
                             OpenDoor
-                           MyVector)
+                            MyVector
+                            TableWithAbility
+                            Lava
+                            Necromancy
+                            Desiccation
+                            TakeDamage
+                            Creature
+                            Creator_Creature
+                            Alive
+                            Orc
+                            Necromancer
+                            )
 

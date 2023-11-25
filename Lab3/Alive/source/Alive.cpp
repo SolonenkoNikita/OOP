@@ -14,12 +14,17 @@ int Alive::roll()
 
 bool Alive::is_hard() const
 {
-	return creature_.get_characteristic()->get_meaning(Atrributes_Names::current_health_) >= 0;
+	return creature_.get_characteristic().get_meaning(Atrributes_Names::current_health_) >= 0;
 }
 
-std::shared_ptr<Creature> Alive::get_creature() const
+Creature& Alive::get_creature()
 {
-	return std::make_shared<Creature>(creature_);
+	return creature_;
+}
+
+const Creature& Alive::get_creature() const
+{
+	return creature_;
 }
 
 Alive& Alive::set_creature(const Characteristics& ch)
@@ -30,21 +35,19 @@ Alive& Alive::set_creature(const Characteristics& ch)
 
 bool Alive::is_died() const
 {
-	return creature_.get_characteristic()->get_meaning(Atrributes_Names::current_health_) <= 0;
+	return creature_.get_characteristic().get_meaning(Atrributes_Names::current_health_) <= 0;
 }
 
 void Alive::using_ability(Cell& cell, std::string& str)
 {
-	std::shared_ptr<Ability> ab = creature_.get_abilites()->get_ability(str);
-	Characteristics ch = *creature_.get_characteristic();
-	ab->apply(ch, cell);
-	creature_.set_characteristics(std::move(ch));
+	std::shared_ptr<Ability> ab = creature_.get_abilites().get_ability(str);
+	ab->apply(creature_.get_characteristic(), cell);
 }
 
 
 void Alive::get_damagble(size_t damage)
 {
-	auto stat = creature_.get_characteristic()->get_meaning(Atrributes_Names::current_health_);
+	auto stat = creature_.get_characteristic().get_meaning(Atrributes_Names::current_health_);
 	creature_.set_characteristics(Atrributes_Names::current_health_, std::max(0ull, stat - damage));	
 }
 
@@ -52,8 +55,8 @@ void Alive::get_damage(size_t damage)
 {
 	if (!is_died())
 	{
-		auto en = creature_.get_characteristic()->get_meaning(Atrributes_Names::skipping_damage_);
-		float an = static_cast<float>(100 - creature_.get_characteristic()->get_meaning(Atrributes_Names::protection_)) / 100;
+		auto en = creature_.get_characteristic().get_meaning(Atrributes_Names::skipping_damage_);
+		float an = static_cast<float>(100 - creature_.get_characteristic().get_meaning(Atrributes_Names::protection_)) / 100;
 		float d = round(damage * an);
 		damage = d;
 		damage *= (en <= roll());
@@ -63,7 +66,15 @@ void Alive::get_damage(size_t damage)
 
 void Alive::die(Cell& cell)
 {
-	//что-то с телом сделать при визаулизации
 }
 
-//void ALive::revival();
+void Alive::revival(Cell& cell)
+{
+	auto health = creature_.get_characteristic().get_meaning(Atrributes_Names::max_health_);
+	creature_.get_characteristic().set_characteristic(Atrributes_Names::current_health_, health);
+}
+
+void Alive::kill(Cell& cell)
+{
+	creature_.get_characteristic().set_characteristic(Atrributes_Names::current_health_, 0ull);
+}

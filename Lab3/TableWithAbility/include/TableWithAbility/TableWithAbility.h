@@ -14,8 +14,6 @@ private:
 public:
 	TableWithAbility() = default;
 
-	~TableWithAbility() = default;
-
 	const std::unordered_map<std::string, std::shared_ptr<Ability>>& get_attribute() const;
 
 	TableWithAbility& set_ability(std::shared_ptr<Ability>, std::string&);

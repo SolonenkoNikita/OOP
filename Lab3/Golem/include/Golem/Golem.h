@@ -6,6 +6,7 @@
 #include <Lava/Lava.h>
 #include <UnResponsive/UnResponsive.h>
 #include <Essence/Essence.h>
+#include <Obstacle/Obstacle.h>
 
 #include <iostream>
 #include <ctime>
@@ -78,6 +79,8 @@ public:
 	void die(Cell&) override;
 
 	void revival(Cell&) override;
+
+	void kill(Cell& cell) override;
 
 	/**
 	* @brief this function - changing creature characteristic

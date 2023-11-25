@@ -5,7 +5,7 @@ Golem::Golem(Characteristics cr) : characteristics_(std::move(cr)), rng_(rd_()),
 	rng_.seed(::time(NULL));
 }
 
-int Alive::roll()
+int Golem::roll()
 {
 	return dist_(rng_);
 }
@@ -20,31 +20,33 @@ bool Golem::is_hard() const
 	return true;
 }
 
-int Golem::random() const
-{
-	return roll() + 1;
-}
-
 void Golem::die(Cell& cell)
 {
-	int i = random();
+	auto i = roll();
 	if (i == 1)
 	{
-		Lava lava;
-		cell.add_selection(lava);
+		Lava lava(i);
+		cell.add_selection(std::move(std::make_shared<Lava>(std::move(lava))));
 	}
 	else if (i == 2)
 	{
 		
 		Wall wall;
-		cell.add_selection(wall);
+		cell.add_selection(std::move(std::make_shared<Wall>(std::move(wall))));
 	}
 	else if (i == 3)
 	{
 		Essence essence;
-		cell.add_selection(essence);
+		cell.add_selection(std::move(std::make_shared<Essence>(std::move(essence))));
 	}
-	cell.delete_selection(*this);
+	for(auto& cnt : cell.get_content())
+	{ 
+		if (auto golem = std::dynamic_pointer_cast<Golem>(cnt))
+		{
+			cell.delete_selection(golem);
+			return;
+		}
+	}
 }
 
 Golem& Golem::set_characteristics(Atrributes_Names name, size_t meaning)
@@ -61,7 +63,7 @@ size_t Golem::get_meaning(Atrributes_Names name) const
 void Golem::get_damagble(size_t damag)
 {
 	auto stat = characteristics_.get_meaning(Atrributes_Names::current_health_);
-	characteristics_.set_characteristics(Atrributes_Names::current_health_, std::max(0ull, stat - damage));
+	characteristics_.set_characteristic(Atrributes_Names::current_health_, std::max(0ull, stat - damag));
 }
 
 void Golem::get_damage(size_t damag)
@@ -69,10 +71,15 @@ void Golem::get_damage(size_t damag)
 	if (!is_died())
 	{
 		float an = static_cast<float>(100 - characteristics_.get_meaning(Atrributes_Names::protection_)) / 100;
-		float d = round(damage * an);
-		damage = d;
-		get_damagble(damage);
+		float d = round(damag * an);
+		damag = d;
+		get_damagble(damag);
 	}
+}
+
+void Golem::kill(Cell& cell)
+{
+	die(cell);
 }
 
 void Golem::revival(Cell& cell)

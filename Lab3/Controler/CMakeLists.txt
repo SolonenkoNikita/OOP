@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.16)
+project(Controler)
+
+set(CMAKE_CXX_STANDARD 20)
+
+add_library (Controler STATIC source/Controler.cpp)
+
+target_link_libraries(Controler Matrix Base Cell)
+
+target_include_directories(Controler PUBLIC include)

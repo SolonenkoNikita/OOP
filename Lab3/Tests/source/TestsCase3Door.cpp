@@ -21,7 +21,7 @@ TEST(DoorCaseWithCell, GetTest)
 	door.die(cell);
 	for (auto& content : cell.get_content())
 	{
-		if(auto reaction = dynamic_cast<Door*>(content))
+		if(auto reaction = dynamic_pointer_cast<Door>(content))
 		{
 			ASSERT_EQ(true, reaction->is_open());
 			break;
@@ -30,7 +30,7 @@ TEST(DoorCaseWithCell, GetTest)
 	door.revival(cell);
 	for (auto& content : cell.get_content())
 	{
-		if (auto reaction = dynamic_cast<Door*>(content))
+		if (auto reaction = dynamic_pointer_cast<Door>(content))
 		{
 			ASSERT_EQ(false, reaction->is_open());
 			break;
@@ -44,11 +44,11 @@ TEST(OPENDOOR, GetTest)
 	Characteristics ch;
 	Cell cell;
 	Door door;
-	cell.add_selection(door);
+	cell.add_selection(std::make_shared<Door>(door));
 	open.apply(ch, cell);
 	for (auto& content : cell.get_content())
 	{
-		if (auto reaction = dynamic_cast<Door*>(content))
+		if (auto reaction = dynamic_pointer_cast<Door>(content))
 		{
 			ASSERT_EQ(true, reaction->is_open());
 			break;
