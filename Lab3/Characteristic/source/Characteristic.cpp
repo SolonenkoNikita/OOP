@@ -104,16 +104,6 @@ Characteristics& Characteristics::set_characteristic(Atrributes_Names name, size
 	return *this;
 }
 
-void Characteristics::print()
-{
-    std::cout << "All Elements : \n";
-    for (auto itr = attributes.begin(); itr != attributes.end(); itr++)
-    {
-        std::cout << GetAttributeName(itr->first) << "  " <<
-            itr->second << std::endl;
-    }
-}
-
 size_t Characteristics::get_meaning(Atrributes_Names name) const
 {
 	auto it = attributes.find(name);

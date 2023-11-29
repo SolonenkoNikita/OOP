@@ -11,6 +11,7 @@
 #include <Zombie/Zombie.h>
 #include <Morphism/Morphism.h>
 #include <TakeDamage/TakeDamage.h>
+#include <PushEssence/PushEssence.h>
 
 /**
 * @brief class Necromancer - a creature instance

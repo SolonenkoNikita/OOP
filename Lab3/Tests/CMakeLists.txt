@@ -25,7 +25,7 @@ add_executable (Tests   source/main.cpp
                         source/TestsCase2Characteristic.cpp 
                         source/TestsCase3Door.cpp
                         source/TestCase4Abilites.cpp
-    )
+                        source/TestCase5Golem.cpp source/TestCase6MatrixAndIterator.cpp)
 
 target_link_libraries(Tests gtest
                             gtest_main
@@ -43,5 +43,9 @@ target_link_libraries(Tests gtest
                             Alive
                             Orc
                             Necromancer
+                            Essence
+                            Golem
+                            MakeCharacteristicForGolem
+                            Matrix
                             )
 

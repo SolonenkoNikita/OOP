@@ -41,11 +41,18 @@ void Unhead::die(Cell& cell)
 	}
 }
 
-void Unhead::using_ability(Cell& cell, std::string& str)
+//void Unhead::using_ability(Cell& cell, std::string& str)
+//{
+//	std::shared_ptr<Ability> ab = creature_.get_abilites().get_ability(str);
+//	ab->apply(creature_.get_characteristic(), cell);
+//}
+
+void Unhead::using_ability(Cell& cell, size_t index)
 {
-	std::shared_ptr<Ability> ab = creature_.get_abilites().get_ability(str);
+	std::shared_ptr<Ability> ab = creature_.get_abilites().get_ability(index);
 	ab->apply(creature_.get_characteristic(), cell);
 }
+
 
 void Unhead::kill(Cell& cell)
 {

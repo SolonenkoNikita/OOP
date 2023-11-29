@@ -2,7 +2,8 @@
 #define _Orc_H_
 
 #include <DirectorForFile/DirectorForFile.h>
-
+#include <TableWithAbility/TableWithAbility.h>
+#include <TakeDamage/TakeDamage.h>
 /**
 * @brief class Orc - a creature instance
 */

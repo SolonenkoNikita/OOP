@@ -18,4 +18,6 @@ target_link_libraries(Dialogue
 							Cell
 							Skeleton
 							Unhead
+							Matrix
+							Room
 							Door)

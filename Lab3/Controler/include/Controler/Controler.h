@@ -3,24 +3,27 @@
 
 #include <memory>
 
-#include <Matrix/Matrix.hpp>
+#include <Room/Room.h>
 #include <Base/Base.h>
 #include <Cell/Cell.h>
+#include <Player/Player.h>
 
 class Controler
 {
 private:
 
-	std::shared_ptr<Matrix<Cell>> matrix_;
+	std::shared_ptr<Room> room_;
 
-	std::shared_ptr<Base> player_;
+	std::shared_ptr<Player> player_;
 
 	Direction direction_;
 public:
 
-	Controler(std::shared_ptr<Base> player);
+	Controler(std::shared_ptr<Player> player, std::shared_ptr<Room> room);
 
-	void move(const Direction direction);
+	void move(Direction& direction);
+
+	void using_ability(size_t, Coordinate);
 };
 
 #endif

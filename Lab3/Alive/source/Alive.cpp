@@ -38,9 +38,15 @@ bool Alive::is_died() const
 	return creature_.get_characteristic().get_meaning(Atrributes_Names::current_health_) <= 0;
 }
 
-void Alive::using_ability(Cell& cell, std::string& str)
+//void Alive::using_ability(Cell& cell, std::string& str)
+//{
+//	std::shared_ptr<Ability> ab = creature_.get_abilites().get_ability(str);
+//	ab->apply(creature_.get_characteristic(), cell);
+//}
+
+void Alive::using_ability(Cell& cell, size_t index)
 {
-	std::shared_ptr<Ability> ab = creature_.get_abilites().get_ability(str);
+	std::shared_ptr<Ability> ab = creature_.get_abilites().get_ability(index);
 	ab->apply(creature_.get_characteristic(), cell);
 }
 

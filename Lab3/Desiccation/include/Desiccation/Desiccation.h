@@ -51,8 +51,8 @@ public:
 			{
 				if (alive->is_died())
 				{
-					auto attribute = level_ * alive->get_creature().get_characteristic().get_meaning(meaning_two);
-					std::min(caster_characteristic.get_meaning(meaning), attribute);
+					auto attribute = level_ * alive->get_creature().get_characteristic().get_meaning(Atrributes_Names::max_health_);
+					caster_characteristic.set_characteristic(meaning, std::min(caster_characteristic.get_meaning(meaning_two), attribute));
 					cell.delete_selection(alive);
 					return;
 				}

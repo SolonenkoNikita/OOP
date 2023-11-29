@@ -4,23 +4,19 @@
 #include <DamageCaused/DamageCaused.h>
 #include <Creature/Creature.h>
 #include <Obstacle/Obstacle.h>
+#include <Player/Player.h>
    
 /**
 * @brief abstract class Unhead
 * @param creature_ - class Creature
 */
 
-class Unhead : public DamageCaused, public Obstacle
+class Unhead : public DamageCaused, public Obstacle, public Player
 {
 protected:
 	Creature creature_;
 
 public:
-
-	void print()
-	{
-		creature_.print();
-	}
 
 	/**
 	* @brief explicit constructor
@@ -56,7 +52,9 @@ public:
 	* @param - name
 	*/
 
-	void using_ability(Cell&, std::string&);
+	//void using_ability(Cell&, std::string&);
+
+	void using_ability(Cell&, size_t) override;
 
 	void die(Cell&) override;
 

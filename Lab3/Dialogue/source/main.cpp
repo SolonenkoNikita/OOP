@@ -11,11 +11,13 @@
 #include <Orc/Orc.h>
 #include <Unhead/Unhead.h>
 #include <Skeleton/Skeleton.h>
+#include <Matrix/Matrix.hpp>
+#include <Room/Room.h>
 
 int main()
 {	
 	Door door;
-	Cell cell;
+	Cell cell(1, 1);
 	Orc orc;
 	Creator_Creature c;
 	DirectorForFile d;
@@ -32,16 +34,26 @@ int main()
 	cell.add_selection(std::make_shared<Door>(door));
 	cell.add_selection(std::make_shared<Lava>(lava));
 	cell.add_selection(std::make_shared<Skeleton>(std::move(cr)));
-	alive.using_ability(cell, str);
-	for (auto& content : cell.get_content())
+	alive.using_ability(cell, 5);
+
+	Creature cr2 = necr.make_necromancer(d, c);
+	Matrix <Cell> m(3, 4);
+	Cell cell1(1, 1);
+	cell1.add_selection(std::make_shared<Zombie>(std::move(cr2)));
+	Room r(std::make_shared<Matrix<Cell>> (std::move(m)));
+	r.add_cell(cell);
+	Coordinate k(1, 1);
+	r.add_cell(cell1);
+	for (auto& c : r.get_cell(k).get_content())
 	{
-		std::cout << typeid(*content).name() << '\n';
-		/*if (auto alive = dynamic_pointer_cast<Skeleton>(content))
-		{
-			std::cout << "!";
-		}*/
+		std::cout << typeid(*c).name() << '\n';
 	}
-	//al.print();
+	/*for (auto it_row = m.cbegin(); it_row != m.cend(); ++it_row)
+	{
+		std::cout << *it_row << " ";
+	}*/
+
+	////al.print();
 	//alive.print();
 	//Alive alive(cr);
 	//cell.add_selection(alive);

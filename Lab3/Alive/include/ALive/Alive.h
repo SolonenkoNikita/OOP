@@ -3,6 +3,7 @@
 
 #include <DamageCaused/DamageCaused.h>
 #include <Creature/Creature.h>
+#include <Player/Player.h>
 
 #include <random>
 #include <time.h>
@@ -14,7 +15,7 @@
 * @param dist_ - std::uniform_int_distribution<int> 
 */
 
-class Alive : public DamageCaused, public Obstacle
+class Alive : public DamageCaused, public Obstacle, public Player
 {
 private:
 	Creature creature_;
@@ -42,11 +43,6 @@ private:
 	int roll(); 
 
 public:
-
-	void print()
-	{
-		creature_.print();
-	}
 
 	/**
 	* @brief explicit constructor
@@ -93,7 +89,9 @@ public:
 	* @param - name
 	*/
 
-	void using_ability(Cell&, std::string&);
+	//void using_ability(Cell&, std::string&);
+
+	void using_ability(Cell&, size_t) override;
 
 	void die(Cell&) override;
 

@@ -29,6 +29,8 @@ public:
                 if (alive->is_died())
                 {
                     cell.delete_selection(alive);
+                    size_t max = alive->get_creature().get_characteristic().get_meaning(Atrributes_Names::max_health_);
+                    alive->get_creature().get_characteristic().set_characteristic(Atrributes_Names::current_health_, max);
                     auto b = std::make_shared<Unhead>(std::move(alive->get_creature()));
                     cell.add_selection(std::move(b));
                     caster_characteristic.set_characteristic(Atrributes_Names::current_mana_, x);

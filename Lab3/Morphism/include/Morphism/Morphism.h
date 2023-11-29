@@ -27,10 +27,11 @@ public:
         {
             if (auto alive = std::dynamic_pointer_cast<Unhead>(content))
             {
-                    cell.delete_selection(alive);
-                    auto b = std::make_shared<T>(std::move(alive->get_creature()));
-                    caster_characteristic.set_characteristic(Atrributes_Names::current_mana_, x);
-                    break;
+                cell.delete_selection(alive);
+                auto b = std::make_shared<T>(std::move(alive->get_creature()));
+                cell.add_selection(b);
+                caster_characteristic.set_characteristic(Atrributes_Names::current_mana_, x);
+                break;
             }
         }
     }

@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_library(Alive STATIC source/Alive.cpp)
 
-target_link_libraries(Alive Cell DamageCaused Creature)
+target_link_libraries(Alive Cell DamageCaused Creature Player)
 
 target_include_directories(Alive PUBLIC include)

@@ -39,7 +39,7 @@ public:
 	* @param count - how much memory should be allocated
 	*/
 
-	explicit MyVector(size_t count): capacity_(count * 2), size_(count)
+	explicit MyVector(size_t count) noexcept: size_(count), capacity_(count * 2)
 	{
 		data_ = reinterpret_cast<T*>(new char[(count * 2) * sizeof(T)]);
 	}
@@ -246,14 +246,20 @@ public:
 		}
 	}
 
-	void push_back(const T& value) 
+	template<typename... Args>
+	void emplace_back(const Args&...args)
 	{
 		if (capacity_ == size_)
 		{
 			reserve(2 * size_);
 		}
-		new(data_ + size_) T(value);
+		new(data_ + size_) T(args...);
 		++size_;
+	}
+
+	void push_back(const T& value) 
+	{
+		emplace_back(value);
 	}
 
 	/**
@@ -418,18 +424,6 @@ public:
 		}
 		s << '\n';
 		return s;
-	}
-
-	/**
-	* @brief a method that outputs the state of a vector to a stream
-	*/
-
-	void print() noexcept
-	{
-		for (size_t i = 0; i < size_; i++)
-		{
-			std::cout << data_[i] << ' ';
-		}
 	}
 
 	/**

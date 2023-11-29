@@ -53,6 +53,16 @@ public:
 
 	int y() const { return point_.y; }
 
+	Coordinate& get_coordinate()
+	{
+		return point_;
+	}
+
+	const Coordinate& get_coordinate() const
+	{
+		return point_;
+	}
+
 	Direction operator -() const
 	{
 		Direction d = { -point_.x, -point_.y };
@@ -85,9 +95,31 @@ public:
 	* @brief default constructor
 	*/
 
+	int x()
+	{
+		return coordinate_.x;
+	}
+
+	int y()
+	{
+		return coordinate_.y;
+	}
+
+	int x() const 
+	{
+		return coordinate_.x;
+	}
+
+	int y() const
+	{
+		return coordinate_.y;
+	}
+
 	Cell() = default;
 
 	Cell(Coordinate& cr) : coordinate_(cr) {};
+
+	Cell(int x, int y) : coordinate_(x, y) {};
 
 	/**
 	* @brief this function return const reference to vector

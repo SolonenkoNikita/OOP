@@ -67,3 +67,9 @@ add_subdirectory(TakeDamage)
 add_subdirectory(Controler)
 
 add_subdirectory(Matrix)
+
+add_subdirectory(MakeCharacteristicForGolem)
+
+add_subdirectory(Player)
+
+add_subdirectory(Room)

@@ -2,6 +2,8 @@
 
 Golem::Golem(Characteristics cr) : characteristics_(std::move(cr)), rng_(rd_()), dist_(std::uniform_int_distribution<>(1, 3))
 {
+	TakeDamage tk;
+	abilites_.set_ability(std::make_shared<TakeDamage>(std::move(tk)));
 	rng_.seed(::time(NULL));
 }
 
@@ -47,6 +49,12 @@ void Golem::die(Cell& cell)
 			return;
 		}
 	}
+}
+
+void Golem::using_ability(Cell& cell, size_t index)
+{
+	std::shared_ptr<Ability> ab = abilites_.get_ability(index);
+	ab->apply(characteristics_, cell);
 }
 
 Golem& Golem::set_characteristics(Atrributes_Names name, size_t meaning)

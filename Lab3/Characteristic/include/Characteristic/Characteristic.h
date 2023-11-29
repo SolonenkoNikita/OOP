@@ -37,8 +37,6 @@ class Characteristics
 private:
 	std::unordered_map<Atrributes_Names, size_t> attributes;
 public:
-	void print();
-public:
 	/**
 	* @brief default constructor
 	*/

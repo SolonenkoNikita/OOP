@@ -12,6 +12,9 @@ target_link_libraries(Golem
 							Lava
 							Essence
 							Obstacle
+							TableWithAbility
+							TakeDamage
+							Player
 							Cell)
 
 target_include_directories(Golem PUBLIC include)

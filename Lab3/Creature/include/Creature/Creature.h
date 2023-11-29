@@ -42,13 +42,6 @@ private:
 
 	Fraction fraction_;
 public:
-	void print()
-	{
-		std::cout << "Name = " << name_ << '\n';
-		std::cout << "Fraction = " << GetSringFraction(fraction_) << '\n';
-		characteristics_.print();
-	}
-public:
 
 	/**
 	* @brief default constructor

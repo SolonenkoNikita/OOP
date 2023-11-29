@@ -7,6 +7,9 @@
 #include <UnResponsive/UnResponsive.h>
 #include <Essence/Essence.h>
 #include <Obstacle/Obstacle.h>
+#include <TableWithAbility/TableWithAbility.h>
+#include <TakeDamage/TakeDamage.h>
+#include <Player/Player.h>
 
 #include <iostream>
 #include <ctime>
@@ -19,7 +22,7 @@
 * @param dist_ - std::uniform_int_distribution<int>
 */
 
-class Golem : public DamageCaused, public Obstacle
+class Golem : public DamageCaused, public Obstacle, public Player
 {
 private:
 	Characteristics characteristics_;
@@ -31,6 +34,8 @@ private:
 	MyRng rng_;
 
 	std::uniform_int_distribution<int> dist_;
+
+	TableWithAbility abilites_;
 
 	/**
 	* @brief this function - the general case of taking damage
@@ -54,6 +59,28 @@ public:
 	*/
 
 	explicit Golem(Characteristics);
+
+	Characteristics& get_characteristics()
+	{
+		return characteristics_;
+	}
+
+	const Characteristics& get_characteristics() const
+	{
+		return characteristics_;
+	}
+
+	TableWithAbility& get_ability()
+	{
+		return abilites_;
+	}
+
+	const TableWithAbility& get_ability() const
+	{
+		return abilites_;
+	}
+
+	void using_ability(Cell& cell, size_t index) override;
 
 	/**
 	* @brief this function - case of taking damage by creature
