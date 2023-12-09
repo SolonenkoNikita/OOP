@@ -5,7 +5,7 @@ TEST(Construct_test_default_int, GetTest)
 {
 	MyVector<int> v;
 	ASSERT_EQ(0, v.size());
-	ASSERT_EQ(1, v.capacity()); 
+	ASSERT_EQ(0, v.capacity()); 
 }
 
 TEST(Construct_test_count_int, GetTest)
@@ -30,7 +30,7 @@ TEST(Construct_test_default_string, GetTest)
 {
 	MyVector<std::string> v;
 	ASSERT_EQ(0, v.size());
-	ASSERT_EQ(1, v.capacity());
+	ASSERT_EQ(0, v.capacity());
 }
 
 TEST(Construct_test_init_list_string, GetTest)
@@ -188,7 +188,7 @@ TEST(INSERT, GetTest)
 	ASSERT_EQ(5, v.size());
 	ASSERT_EQ("f", v[2]);
 	ASSERT_EQ("b", v[3]);
-	ASSERT_THROW(v.insert(-1, "f"), std::runtime_error);
+	ASSERT_THROW(v.insert(-1, "f"), std::out_of_range);
 
 }
 

@@ -4,7 +4,7 @@ evil
 
 max_health 15
 
-current_health 0
+current_health 15
 
 skipping_damage 50
 

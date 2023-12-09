@@ -2,6 +2,7 @@
 
 Door& Door::close()
 {
+	set_id(6);
 	closed_ = true;
 	return *this;
 }
@@ -18,6 +19,7 @@ bool Door::is_open() const
 
 Door& Door::open()
 {
+	set_id(7);
 	closed_ = false;
 	return *this;
 }

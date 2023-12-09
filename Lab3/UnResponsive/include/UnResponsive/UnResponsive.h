@@ -11,6 +11,22 @@ class Wall : public Obstacle
 {
 public:
 
+	Wall();
+
+	/**
+	* @brief override function that checks whether a solid is solid or not
+	* @return bool
+	*/
+
+	bool is_hard() const override;
+};
+
+class Floor: public Obstacle
+{
+public:
+
+	Floor();
+
 	/**
 	* @brief override function that checks whether a solid is solid or not
 	* @return bool

@@ -17,16 +17,13 @@ class Door : public Responsive, public DamageCaused
 private:
 	bool closed_;
 public:
-	void print()
-	{
-		std::cout.setf(std::cout.boolalpha);
-		std::cout << closed_ << '\n';
-	}
-public:
 	/**
 	* @brief constructor
 	*/
-	Door() : closed_(true) {}
+	Door() : closed_(true) 
+	{
+		set_id(6);
+	}
 
 	/**
 	* @brief the function that closes the door

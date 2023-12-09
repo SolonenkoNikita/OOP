@@ -10,17 +10,10 @@
 class TableWithAbility
 {
 private:
-	//std::unordered_map<std::string, std::shared_ptr<Ability>> attributes_;
 	std::vector<std::shared_ptr<Ability>> attributes_;
 
 public:
 	TableWithAbility() = default;
-
-	/*const std::unordered_map<std::string, std::shared_ptr<Ability>>& get_attribute() const;
-
-	TableWithAbility& set_ability(std::shared_ptr<Ability>, std::string&);
-
-	std::shared_ptr<Ability> get_ability(const std::string&) const;*/
 
 	const std::vector<std::shared_ptr<Ability>>& get_attribute() const;
 

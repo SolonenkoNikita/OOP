@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <type_traits>
-#include <algorithm>
 
 /**
 * @brief template class MyVector
@@ -29,19 +28,27 @@ public:
 	* @brief explicit constructor without parametrs
 	*/
 
-	explicit MyVector() noexcept: size_(0), capacity_(1)
+	MyVector() noexcept: size_(0), capacity_(0), data_(nullptr)
 	{
-		data_ = reinterpret_cast<T*>(new char[1 * sizeof(T)]);
-	};
+	}
 
 	/**
 	* @brief explicit constructor with count
 	* @param count - how much memory should be allocated
 	*/
 
-	explicit MyVector(size_t count) noexcept: size_(count), capacity_(count * 2)
+	explicit MyVector(size_t count): size_(count), capacity_(count)
 	{
-		data_ = reinterpret_cast<T*>(new char[(count * 2) * sizeof(T)]);
+		data_ = reinterpret_cast<T*>(new(std::align_val_t(alignof(T))) char[capacity_ * sizeof(T)]);
+		try
+		{
+			std::uninitialized_default_construct_n(data_, size_);
+		}
+		catch (...)
+		{
+			delete[] reinterpret_cast<char*>(data_);
+			throw;
+		}
 	}
 
 	/**
@@ -50,11 +57,17 @@ public:
 	* @param value - how to initialize the entire vector
 	*/
 
-	MyVector(size_t count, const T& value) : MyVector(count)
+	MyVector(size_t count, const T& value) : size_(count), capacity_(count)
 	{
-		for (iterator i = begin(); i != end(); i++)
+		data_ = reinterpret_cast<T*>(new(std::align_val_t(alignof(T))) char[capacity_ * sizeof(T)]);
+		try
 		{
-			*i = value;
+			std::uninitialized_fill_n(data_, size_);
+		}
+		catch (...)
+		{
+			delete[] reinterpret_cast<char*>(data_);
+			throw;
 		}
 	}
 
@@ -65,8 +78,16 @@ public:
 	MyVector(const std::initializer_list<T>& l) : capacity_(l.size() * 2), size_(l.size())
 	{
 		data_ = reinterpret_cast<T*>(new char[(l.size() * 2) * sizeof(T)]);
-		std::uninitialized_copy(l.begin(), l.end(), data_);
-	};
+		try
+		{
+			std::uninitialized_copy(l.begin(), l.end(), data_);
+		}
+		catch (...)
+		{
+			delete[] reinterpret_cast<char*>(data_);
+			throw;
+		}
+	}
 
 	/**
 	* @brief copy constructor
@@ -74,22 +95,18 @@ public:
 	* @throw - in case of any exception
 	*/
 
-	MyVector(const MyVector<T>& v)
+	MyVector(const MyVector<T>& v) : size_(v.size_), capacity_(v.capacity_)
 	{
+		data_ = reinterpret_cast<T*>(new(std::align_val_t(alignof(T))) char[capacity_ * sizeof(T)]);
 		try
 		{
-			data_ = reinterpret_cast<T*>(new char[(v.size() * 2) * sizeof(T)]);
+			std::uninitialized_copy(v.data_, v.data_ + v.size_, data_);
 		}
 		catch (...)
 		{
-			size_ = 0;
-			capacity_ = 0;
 			delete[] reinterpret_cast<char*>(data_);
 			throw;
 		}
-		size_ = v.size_;
-		capacity_ = v.capacity_;
-		std::uninitialized_copy(v.data_, v.data_ + size_,data_);
 	}
 
 	/**
@@ -101,27 +118,8 @@ public:
 
 	MyVector& operator = (const MyVector<T>& v)
 	{
-		if (this != &v)
-		{
-			T* new_data = reinterpret_cast<T*>(new char[v.size() * sizeof(T)]);
-			try
-			{
-				std::uninitialized_copy(v.data_, v.data_ + v.size_, new_data);
-			}
-			catch (...)
-			{
-				delete[] reinterpret_cast<char*>(new_data);
-				throw;
-			}
-			for (size_t j = 0; j < size_; j++)
-			{
-				(data_ + j)->~T();
-			}
-			delete[] reinterpret_cast<char*>(data_);
-			size_ = v.size_;
-			capacity_ = v.capacity_;
-			data_ = new_data;
-		}
+		MyVector new_data(v); 
+		swap(new_data);
 		return *this;
 	}
 
@@ -143,13 +141,7 @@ public:
 
 	MyVector& operator =(MyVector<T>&& v) noexcept
 	{
-		size_ = v.size_;
-		capacity_ = v.capacity_;
-		deallocate();
-		data_ = v.data_;
-		v.capacity_ = 0;
-		v.size_ = 0;
-		v.data_ = nullptr;
+		swap(v);
 		return *this;
 	}
 
@@ -247,19 +239,24 @@ public:
 	}
 
 	template<typename... Args>
-	void emplace_back(const Args&...args)
+	void emplace_back(Args&&...args)
 	{
 		if (capacity_ == size_)
 		{
 			reserve(2 * size_);
 		}
-		new(data_ + size_) T(args...);
+		new(data_ + size_) T(std::forward<Args>(args)...);
 		++size_;
-	}
+	} 
 
 	void push_back(const T& value) 
 	{
 		emplace_back(value);
+	}
+
+	void push_back(T&& value)
+	{
+		emplace_back(std::move(value));
 	}
 
 	/**
@@ -279,17 +276,17 @@ public:
 	* @throw std::runtime_error
 	*/
 
-	void insert(const int index, const T& value)
+	void insert(const int index, T&& value)
 	{
 		if (index >= size_ || index < 0)
 		{
-			throw std::runtime_error("Segmentation Fault\n");
+			throw std::out_of_range("Segmentation Fault\n");
 		}
 		if (size_ == capacity_)
 		{
 			reserve(capacity_ * 2);
 		}
-		new(data_ + size_) T(value);
+		new(data_ + size_) T(std::forward<T>(value));
 		for (size_t i = size_; i > index; i--)
 		{
 			my_swap(data_[i], data_[i - 1]);
@@ -315,10 +312,9 @@ public:
 
 	void swap(MyVector<T>& v) noexcept
 	{
-		using std::swap;
-		swap(data_, v.data_);
-		swap(size_, v.size_);
-		swap(capacity_, v.capacity_);
+		std::swap(data_, v.data_);
+		std::swap(size_, v.size_);
+		std::swap(capacity_, v.capacity_);
 	}
 
 	/**
@@ -343,7 +339,7 @@ public:
 		{
 			return data_[size_ - 1];
 		}
-		throw std::runtime_error("Vector is empty\n");
+		throw std::out_of_range("Vector is empty\n");
 	}
 
 	/**
@@ -431,7 +427,12 @@ public:
 	* @return iterator
 	*/
 
-	iterator begin() const
+	iterator begin()
+	{
+		return data_;
+	}
+
+	const iterator begin() const
 	{
 		return data_;
 	}
@@ -441,7 +442,12 @@ public:
 	* @return iterator
 	*/
 
-	iterator end() const
+	iterator end()
+	{
+		return data_ + size_;
+	}
+
+	const iterator end() const
 	{
 		return data_ + size_;
 	}

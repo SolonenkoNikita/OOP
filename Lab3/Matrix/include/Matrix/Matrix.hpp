@@ -7,6 +7,7 @@
 
 #include <MyVector/MyVector.hpp>
 
+
 template<typename T, bool is_const>
 class Iterator
 {
@@ -154,21 +155,21 @@ public:
 
     iterator begin()
     {
-        return iterator(data_.begin()->begin(), data_.begin());
+        return iterator(data_.begin(), data_.begin()->begin());
     }
 
     iterator end()
     {
-        return iterator(data_.end()->begin(), data_.end());
+        return iterator(data_.end(), data_.end()->begin());
     }
 
     const_iterator cbegin() const
     {
-        return const_iterator(data_.begin()->begin(), data_.begin());
+        return const_iterator(data_.begin(), data_.begin()->begin());
     }
     const_iterator cend() const
     {
-        return const_iterator(data_.end()->begin(), data_.end());
+        return const_iterator(data_.end(), data_.end()->begin());
     }
 
     Matrix(size_t colomns, size_t lines)
@@ -183,13 +184,13 @@ public:
         }
     }
 
-    Matrix(const Matrix& other) = default;
+    Matrix(const Matrix& matrix) = default;
 
-    Matrix(Matrix&& other) = default;
+    Matrix(Matrix&& matrix) = default;
 
-    Matrix& operator=(const Matrix& other) = default;
+    Matrix& operator=(const Matrix& matrix) = default;
 
-    Matrix& operator=(Matrix&& other) = default;
+    Matrix& operator=(Matrix&& matrix) = default;
 
     std::vector<T>& operator[](size_t i)
     {
@@ -226,7 +227,7 @@ public:
 
     size_t size_line() const
     {
-        return data_.size() > 0 ? data_[0].size() : 0ull;
+        return data_.size() > 0 ? data_[0].size() - size_matrix() : 0ull;
     }
 
 };

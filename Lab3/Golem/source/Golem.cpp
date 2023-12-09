@@ -4,6 +4,7 @@ Golem::Golem(Characteristics cr) : characteristics_(std::move(cr)), rng_(rd_()),
 {
 	TakeDamage tk;
 	abilites_.set_ability(std::make_shared<TakeDamage>(std::move(tk)));
+	set_id(5);
 	rng_.seed(::time(NULL));
 }
 
@@ -28,17 +29,19 @@ void Golem::die(Cell& cell)
 	if (i == 1)
 	{
 		Lava lava(i);
+		set_id(lava.get_id());
 		cell.add_selection(std::move(std::make_shared<Lava>(std::move(lava))));
 	}
 	else if (i == 2)
 	{
-		
 		Wall wall;
+		set_id(wall.get_id());
 		cell.add_selection(std::move(std::make_shared<Wall>(std::move(wall))));
 	}
 	else if (i == 3)
 	{
 		Essence essence;
+		set_id(essence.get_id());
 		cell.add_selection(std::move(std::make_shared<Essence>(std::move(essence))));
 	}
 	for(auto& cnt : cell.get_content())

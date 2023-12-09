@@ -18,6 +18,9 @@
 class Alive : public DamageCaused, public Obstacle, public Player
 {
 private:
+
+	size_t old_id;
+
 	Creature creature_;
 
 	std::random_device rd_;
@@ -49,7 +52,7 @@ public:
 	* @param - class Creature
 	*/
 
-	explicit Alive(Creature);
+	Alive(Creature, size_t id);
 
 	/**
 	* @brief a function that checks whether a solid is solid or not
@@ -88,8 +91,6 @@ public:
 	* @param - the cell to which will be called ability
 	* @param - name
 	*/
-
-	//void using_ability(Cell&, std::string&);
 
 	void using_ability(Cell&, size_t) override;
 

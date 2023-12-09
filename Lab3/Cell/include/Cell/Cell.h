@@ -34,6 +34,13 @@ struct Coordinate
 	explicit Coordinate(const Coordinate& c) : x(c.x), y(c.y) {};
 
 	Coordinate(int x, int y) : x(x), y(y) {};
+
+	Coordinate& operator = (const Coordinate& c)
+	{
+		x = c.x;
+		y = c.y;
+		return *this;
+	}
 };
 
 class Direction
@@ -52,6 +59,10 @@ public:
 	int x() const { return point_.x; }
 
 	int y() const { return point_.y; }
+
+	int x() { return point_.x; }
+
+	int y()  { return point_.y; }
 
 	Coordinate& get_coordinate()
 	{

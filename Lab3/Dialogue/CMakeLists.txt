@@ -20,4 +20,9 @@ target_link_libraries(Dialogue
 							Unhead
 							Matrix
 							Room
+							VectorForImages
+							Controler
+							Game
+							UnResponsive
+							MakeCharacteristicForGolem
 							Door)

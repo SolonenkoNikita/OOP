@@ -2,7 +2,7 @@
 
 void Cell::add_selection(std::shared_ptr<Base> obst)
 {
-	content_.push_back(std::move(obst));
+	content_.emplace_back(std::move(obst));
 }
 
 void Cell::delete_selection(std::shared_ptr<Base> obst)
@@ -11,7 +11,7 @@ void Cell::delete_selection(std::shared_ptr<Base> obst)
 	{
 		if (*it == obst)
 		{
-			content_.erase(it, content_.end());
+			content_.erase(it);
 			break;
 		}
 	}

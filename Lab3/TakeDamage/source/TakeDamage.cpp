@@ -8,8 +8,8 @@ void TakeDamage::apply(Characteristics& caster_characteristic, Cell& cell)
 		{
 			if (!damage->is_died())
 			{
-				
-				damage->get_damage(caster_characteristic.get_meaning(Atrributes_Names::damage_));
+				size_t damag = caster_characteristic.get_meaning(Atrributes_Names::damage_);
+				damage->get_damage(damag);
 				break;
 			}
 		}

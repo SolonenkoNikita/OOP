@@ -2,8 +2,9 @@
 
 #include "Alive/Alive.h"
 
-Alive::Alive(Creature cr) : creature_(std::move(cr)), rng_(rd_()), dist_(std::uniform_int_distribution<>(1, 100))
+Alive::Alive(Creature cr, size_t id) : creature_(std::move(cr)), rng_(rd_()), dist_(std::uniform_int_distribution<>(1, 100))
 {
+	set_id(id);
 	rng_.seed(::time(NULL));
 }
 
@@ -38,12 +39,6 @@ bool Alive::is_died() const
 	return creature_.get_characteristic().get_meaning(Atrributes_Names::current_health_) <= 0;
 }
 
-//void Alive::using_ability(Cell& cell, std::string& str)
-//{
-//	std::shared_ptr<Ability> ab = creature_.get_abilites().get_ability(str);
-//	ab->apply(creature_.get_characteristic(), cell);
-//}
-
 void Alive::using_ability(Cell& cell, size_t index)
 {
 	std::shared_ptr<Ability> ab = creature_.get_abilites().get_ability(index);
@@ -59,6 +54,7 @@ void Alive::get_damagble(size_t damage)
 
 void Alive::get_damage(size_t damage)
 {
+	std::cout << creature_.get_characteristic().get_meaning(Atrributes_Names::current_health_) << '\n';
 	if (!is_died())
 	{
 		auto en = creature_.get_characteristic().get_meaning(Atrributes_Names::skipping_damage_);
@@ -67,11 +63,14 @@ void Alive::get_damage(size_t damage)
 		damage = d;
 		damage *= (en <= roll());
 		get_damagble(damage);
+		return;
 	}
 }
 
 void Alive::die(Cell& cell)
 {
+	old_id = get_id();
+	set_id(8);
 }
 
 void Alive::revival(Cell& cell)

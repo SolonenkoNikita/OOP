@@ -16,7 +16,10 @@ private:
 
 public:
 
-	Lava(size_t damage) : damage_(damage) {};
+	Lava(size_t damage) : damage_(damage)
+	{
+		set_id(3);
+	}
 
 	/**
 	* @brief override function that checks whether a solid is solid or not

@@ -7,5 +7,6 @@ void Ghost::get_damage(size_t damage)
 
 Ghost::Ghost(Creature cr) : Unhead(std::move(cr))
 {
+	set_id(9);
 }
 
