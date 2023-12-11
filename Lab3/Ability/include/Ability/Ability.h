@@ -15,6 +15,8 @@ public:
 	* @brief defaut virtual destructor
 	*/
 
+	virtual bool is_long() const = 0;
+
 	virtual ~Ability() = default; 
 
 	/**

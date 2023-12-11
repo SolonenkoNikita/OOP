@@ -1,5 +1,10 @@
 #include "TakeDamage/TakeDamage.h"
 
+bool TakeDamage::is_long() const 
+{
+	return false;
+}
+
 void TakeDamage::apply(Characteristics& caster_characteristic, Cell& cell)
 {
 	for (auto& it : cell.get_content())

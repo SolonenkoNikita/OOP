@@ -18,6 +18,8 @@ public:
 	* @param cell - the cell in which the skill will be ability
 	*/
 
+	bool is_long() const override;
+
 	void apply(Characteristics& caster_characteristic, Cell& cell) override;
 };
 

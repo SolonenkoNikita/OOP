@@ -1,5 +1,10 @@
 #include "OpenDoor/OpenDoor.h"
 
+bool OpenDoor::is_long() const 
+{
+    return false;
+}
+
 void OpenDoor::apply(Characteristics& caster_characteristic, Cell& cell)
 {
     for (auto& content : cell.get_content())

@@ -74,6 +74,11 @@ size_t Golem::get_meaning(Atrributes_Names name) const
 void Golem::get_damagble(size_t damag)
 {
 	auto stat = characteristics_.get_meaning(Atrributes_Names::current_health_);
+	if ((stat - damag) >= INT_MAX)
+	{
+		characteristics_.set_characteristic(Atrributes_Names::current_health_, 0ull);
+		return;
+	}
 	characteristics_.set_characteristic(Atrributes_Names::current_health_, std::max(0ull, stat - damag));
 }
 

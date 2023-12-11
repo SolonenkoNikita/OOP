@@ -54,7 +54,6 @@ void Alive::get_damagble(size_t damage)
 
 void Alive::get_damage(size_t damage)
 {
-	std::cout << creature_.get_characteristic().get_meaning(Atrributes_Names::current_health_) << '\n';
 	if (!is_died())
 	{
 		auto en = creature_.get_characteristic().get_meaning(Atrributes_Names::skipping_damage_);
@@ -65,6 +64,7 @@ void Alive::get_damage(size_t damage)
 		get_damagble(damage);
 		return;
 	}
+	set_id(8);
 }
 
 void Alive::die(Cell& cell)

@@ -7,6 +7,6 @@ void Skeleton::get_damage(size_t damage)
 
 Skeleton::Skeleton(Creature cr) : Unhead(std::move(cr))
 {
-	set_id(7);
+	set_id(9);
 }
 

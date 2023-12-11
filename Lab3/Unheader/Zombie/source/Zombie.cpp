@@ -7,5 +7,5 @@ void Zombie::get_damage(size_t damage)
 
 Zombie::Zombie(Creature cr) : Unhead(std::move(cr))
 {
-	set_id(8);
+	set_id(11);
 }

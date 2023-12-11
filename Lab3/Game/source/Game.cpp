@@ -77,6 +77,7 @@ void Game::create_game()
 	vectores.emplace_back(std::make_shared<Wall>());
 	vectores.emplace_back(std::make_shared<Golem>(std::move(golems_ch)));
 	vectores.emplace_back(std::make_shared<Door>());
+	vectores.emplace_back(std::make_shared<Essence>());
 	create_room("../../../../FileForRoom/FileForRoom.txt", vectores);
 }
 
@@ -170,8 +171,8 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 		{
 			int x = event.mouseButton.x / 32;
 			int y = event.mouseButton.y / 32;
-			//if(fabs(x - controler_player_.get_dir().x()) <= 1 || fabs(y - controler_player_.get_dir().x()) <= 1))
-			//{
+			if((fabs(x - controler_player_.get_dir().x()) <= 1 || fabs(y - controler_player_.get_dir().x()) <= 1))
+			{
 				int number = get_num();
 				Coordinate coor(x, y);
 				controler_player_.using_ability(number, coor);
@@ -179,10 +180,13 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 				{
 					if (auto creature = std::dynamic_pointer_cast<DamageCaused>(content))
 					{
-						creature->die(controler_player_.get_room()->get_cell(coor));
+						if (creature->is_died())
+						{
+							creature->die(controler_player_.get_room()->get_cell(coor));
+						}	
 					}
 				}
-			//}
+			}
 		}
 		if (flag != 1)
 		{
@@ -202,14 +206,10 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 							sf::Sprite sp = create_sprite(i, j, t);
 							window.draw(sp);
 						}
-						/*if (auto kek = std::dynamic_pointer_cast<Responsive>(celka))
+						if (auto g = std::dynamic_pointer_cast<Lava>(celka))
 						{
-							if (auto cu = std::dynamic_pointer_cast<Door>(kek))
-							{
-								continue;
-							}
-							kek->reaction(controler_player_.get_room()->get_cell(cor));
-						}*/
+							g->reaction(controler_player_.get_room()->get_cell(cor));
+						}
 					}
 				}
 			}

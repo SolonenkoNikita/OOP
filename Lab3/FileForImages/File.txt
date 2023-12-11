@@ -7,4 +7,7 @@ golem.png
 door_close.png
 door_open.png
 body.png
+skeleton.png
+essence.png
+zombie.png
 game_over.png

@@ -33,6 +33,11 @@ public:
 	* @brief default constructor
 	*/
 
+	bool is_long() const override
+	{
+		return false;
+	}
+
 	Desiccation() : level_(0ull), count_(0ull) {};
 
 	/**

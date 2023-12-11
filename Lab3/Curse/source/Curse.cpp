@@ -7,6 +7,11 @@ void Curse::check()
     level_ += (count_ % 10 != 0) ? 0 : 1;
 }
 
+bool Curse::is_long() const
+{
+    return true;
+}
+
 void Curse::apply(Characteristics& caster_characteristic, Cell& cell)
 {
     check();

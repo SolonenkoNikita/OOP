@@ -6,6 +6,9 @@
 class TakeDamage : public Ability
 {
 public:
+
+	bool is_long() const override;
+
 	void apply(Characteristics& caster_characteristic, Cell& cell) override;
 };
 

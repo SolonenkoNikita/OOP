@@ -12,6 +12,11 @@ class Essence : public Obstacle
 {
 public:
 
+	Essence()
+	{
+		set_id(10);
+	}
+
 	/**
 	* @brief override function that checks whether a solid is solid or not
 	* @return bool

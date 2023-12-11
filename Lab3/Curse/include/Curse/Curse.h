@@ -28,6 +28,8 @@ public:
 	* @brief default constructor 
 	*/
 
+	bool is_long() const override;
+
 	Curse() : level_(0ull), count_(1ull) {};
 
 	/**
