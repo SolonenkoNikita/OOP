@@ -34,6 +34,7 @@ public:
 	void move(Direction& direction) override;
 
 	void using_ability(size_t, Coordinate&) override;
+
 };
 
 #endif

@@ -15,6 +15,11 @@ public:
 
     Morphism(size_t mana) : mana_(mana) {};
 
+    bool is_long() const override
+    {
+        return false;
+    }
+
     void apply(Characteristics& caster_characteristic, Cell& cell) override
     {
         size_t cur = caster_characteristic.get_meaning(Atrributes_Names::current_mana_);

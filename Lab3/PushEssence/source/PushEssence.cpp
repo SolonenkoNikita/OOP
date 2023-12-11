@@ -2,7 +2,7 @@
 
 bool PushEssence::is_long() const
 {
-    false;
+    return false;
 }
 
 void PushEssence::apply(Characteristics& caster_characteristic, Cell& cell)

@@ -166,24 +166,27 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 		window.clear();
 		dir = get_direction();
 		controler_player_.move(dir);
-		///поменять местами, сначала нажимать, потом клетку
+		int number = get_num();
 		if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 		{
 			int x = event.mouseButton.x / 32;
 			int y = event.mouseButton.y / 32;
-			if((fabs(x - controler_player_.get_dir().x()) <= 1 || fabs(y - controler_player_.get_dir().x()) <= 1))
+			Coordinate coor(x, y);
+			if (number == 2)
 			{
-				int number = get_num();
-				Coordinate coor(x, y);
 				controler_player_.using_ability(number, coor);
-				for (auto& content : controler_player_.get_room()->get_cell(coor).get_content())
+			}
+			if(number != 2 && (fabs(x - controler_player_.get_dir().x()) <= 1 || fabs(y - controler_player_.get_dir().x()) <= 1))
+			{
+				controler_player_.using_ability(number, coor);
+			}
+			for (auto& content : controler_player_.get_room()->get_cell(coor).get_content())
+			{
+				if (auto creature = std::dynamic_pointer_cast<DamageCaused>(content))
 				{
-					if (auto creature = std::dynamic_pointer_cast<DamageCaused>(content))
+					if (creature->is_died())
 					{
-						if (creature->is_died())
-						{
-							creature->die(controler_player_.get_room()->get_cell(coor));
-						}	
+						creature->die(controler_player_.get_room()->get_cell(coor));
 					}
 				}
 			}
