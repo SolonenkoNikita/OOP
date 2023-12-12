@@ -1,0 +1,16 @@
+Goblin
+
+evil
+
+max_health 10
+
+current_health 10
+
+skipping_damage 0
+
+protection 0
+
+damage 3
+
+attack 3
+  

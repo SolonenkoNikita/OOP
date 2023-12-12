@@ -46,12 +46,17 @@ void Game::create_room(const std::string& filename, std::vector<std::shared_ptr<
 						{
 							controler_player_.get_dir().get_coordinate().x = i;
 							controler_player_.get_dir().get_coordinate().y = j;
+							continue;
 						}
-						else 
+						else if(auto x = std::dynamic_pointer_cast<DamageCaused>(*it))
 						{
+							if (auto b = std::dynamic_pointer_cast<Door>(*it))
+							{
+								continue;
+							}
 							Direction dir(cor);
 							auto player = std::dynamic_pointer_cast<Player>(v[count]);
-							ControlerAI controler(player, nullptr, dir);
+							ControlerAI controler(player, controler_player_.get_room(), dir);
 							vector_ai_.emplace_back(std::move(controler));
 						}
 					}
@@ -67,17 +72,21 @@ void Game::create_game()
 	Creator_Creature c;
 	DirectorForFile d;
 	Orc orc;
+	Goblin goblin;
 	ForGolem forgolem;
 	Characteristics golems_ch = forgolem.make_characteristics("../../../../Files/Golem.txt");
 	std::vector<std::shared_ptr<Base>> vectores;
 	vectores.emplace_back(std::make_shared<Lava>(1));
 	vectores.emplace_back(std::make_shared<Alive>(orc.make_orc(d, c), 2));
+	vectores.emplace_back(std::make_shared<Alive>(goblin.make_goblin(d, c), 12));
 	vectores.emplace_back(controler_player_.get_player());
 	vectores.emplace_back(std::make_shared<Floor>());
 	vectores.emplace_back(std::make_shared<Wall>());
 	vectores.emplace_back(std::make_shared<Golem>(std::move(golems_ch)));
 	vectores.emplace_back(std::make_shared<Door>());
 	vectores.emplace_back(std::make_shared<Essence>());
+	vectores.emplace_back(std::make_shared<Skeleton>(goblin.make_goblin(d, c)));
+	vectores.emplace_back(std::make_shared<Zombie>(orc.make_orc(d, c)));
 	create_room("../../../../FileForRoom/FileForRoom.txt", vectores);
 }
 
@@ -151,9 +160,27 @@ size_t Game::get_num()
 	}
 }
 
+std::vector<std::vector<Coordinate>> Game::get_search()
+{
+	std::vector<std::vector<Coordinate>> vv;
+	for (int i = 0; i < vector_ai_.size(); i++)
+	{
+		Search sear;
+		Coordinate cordin(vector_ai_[i].get_dir().x(), vector_ai_[i].get_dir().y());
+		std::vector<Coordinate> vec = sear.search(*controler_player_.get_room()->get_matrix(), cordin, controler_player_.get_dir().get_coordinate());
+		vv.emplace_back(vec);
+	}
+	return vv;
+}
+
 void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 {
 	int flag = 0;
+	sf::Music music;
+	music.openFromFile("../../../../Music/heroes.ogg");
+	music.play();
+	std::vector<std::vector<Coordinate>> vv = get_search();
+	sf::Time halfSecond = sf::milliseconds(500);
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -162,10 +189,38 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-		Direction dir;
+		Direction dir, old_dir = controler_player_.get_dir();
 		window.clear();
 		dir = get_direction();
 		controler_player_.move(dir);
+		if (old_dir != dir)
+		{
+			/*for (auto& vec : vv)
+			{
+				vec.clear();
+			}
+			vv.clear();*/
+			vv = get_search();
+		}
+		for (int i = 0; i < 1; i++)
+		{
+			if (vector_ai_[i].get_count() > vv[i].size())
+			{
+				vector_ai_[i].set_count(0);
+				continue;
+			}
+			if (vv[i][vector_ai_[i].get_count()] == controler_player_.get_dir())
+			{
+				continue;
+			}
+			int j = vector_ai_[i].get_count();
+			Direction di(vv[i][j]);
+			j++;
+			vector_ai_[i].move(di);
+			vector_ai_[i].set_count(j);
+		}
+		//std::cout << vector_ai_[0].get_dir().x() << ' ' << vector_ai_[0].get_dir().y() << '\n';
+		std::cout << controler_player_.get_dir().x() << ' ' << controler_player_.get_dir().x() << '\n';
 		int number = get_num();
 		if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 		{

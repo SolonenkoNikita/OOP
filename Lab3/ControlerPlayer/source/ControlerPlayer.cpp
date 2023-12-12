@@ -51,7 +51,6 @@ void ControlerPlayer::move(Direction& direction)
 			{
 				return;
 			}
-			
 		}
 	}
 	room_->get_cell(direction_.get_coordinate()).delete_selection(player_);

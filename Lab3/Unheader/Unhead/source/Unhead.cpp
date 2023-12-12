@@ -11,7 +11,7 @@ Unhead::Unhead(Creature cr) : creature_(std::move(cr))
 
 bool Unhead::is_died() const
 {
-	return false;
+	return creature_.get_characteristic().get_meaning(Atrributes_Names::current_health_) <= 0;
 }
 
 Creature& Unhead::get_creature()
@@ -39,6 +39,7 @@ void Unhead::die(Cell& cell)
 			return;
 		}
 	}
+	set_id(0);
 }
 
 //void Unhead::using_ability(Cell& cell, std::string& str)

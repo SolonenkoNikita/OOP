@@ -16,9 +16,9 @@
 
 struct Coordinate
 {
-	int x = 0;
+	int x;
 
-	int y = 0;
+	int y;
 
 	/**
 	* @brief default constructor
@@ -31,9 +31,10 @@ struct Coordinate
 	* @param c - const reference by Coordinate
 	*/
 
-	explicit Coordinate(const Coordinate& c) : x(c.x), y(c.y) {};
+	Coordinate(const Coordinate& c) : x(c.x), y(c.y) {};
 
 	Coordinate(int x, int y) : x(x), y(y) {};
+
 
 	Coordinate& operator = (const Coordinate& c)
 	{
@@ -41,6 +42,21 @@ struct Coordinate
 		y = c.y;
 		return *this;
 	}
+
+	bool operator == (const Coordinate& other) const
+	{
+		return x == other.x && y == other.y;
+	}
+
+	/*bool operator<(const Coordinate& other) const 
+	{
+		return x < other.x;
+	}
+
+	bool operator>(const Coordinate& other) const 
+	{
+		return x > other.x;
+	}*/
 };
 
 class Direction

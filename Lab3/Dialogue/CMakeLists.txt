@@ -25,4 +25,5 @@ target_link_libraries(Dialogue
 							Game
 							UnResponsive
 							MakeCharacteristicForGolem
+							Search
 							Door)

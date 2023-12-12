@@ -53,11 +53,15 @@ add_subdirectory(TableWithAbility)
 
 add_subdirectory(Base)
 
+add_subdirectory(Search)
+
 add_subdirectory(Director)
 
 add_subdirectory(DirectorForFile)
 
 add_subdirectory(Orc)
+
+add_subdirectory(Goblin)
 
 add_subdirectory(Essence)
 

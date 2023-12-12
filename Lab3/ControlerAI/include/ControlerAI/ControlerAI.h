@@ -20,6 +20,8 @@ private:
 
 	Direction direction_;
 
+	size_t count_;
+
 	/*std::random_device rd_;
 
 	typedef std::mt19937 MyRng;
@@ -34,6 +36,22 @@ public:
 	ControlerAI() = default;
 
 	ControlerAI(std::shared_ptr<Player> player, std::shared_ptr<Room> room, Direction dir);
+
+	ControlerAI set_count(size_t count)
+	{
+		count_ = count;
+		return *this;
+	}
+
+	size_t get_count()
+	{
+		return count_;
+	}
+
+	size_t get_count() const
+	{
+		return count_;
+	}
 
 	ControlerAI& set_dir(int x, int y);
 

@@ -5,6 +5,10 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_library(Game STATIC source/Game.cpp)
 
+target_link_libraries(Game 
+sfml-system
+sfml-audio)
+
 target_link_libraries(Game
 							Alive
 							Characteristic
@@ -27,5 +31,7 @@ target_link_libraries(Game
 							UnResponsive
 							MakeCharacteristicForGolem
 							Golem
+							Goblin
+							Search
 							Door)
 target_include_directories(Game PUBLIC include)

@@ -10,4 +10,5 @@ body.png
 skeleton.png
 essence.png
 zombie.png
+goblin.png
 game_over.png

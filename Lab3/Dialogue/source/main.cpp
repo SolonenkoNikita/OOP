@@ -13,6 +13,7 @@
 #include <UnResponsive/UnResponsive.h>
 #include <Golem/Golem.h>
 #include <MakeCharacteristicForGolem/MakeCharacteristicForGolem.h>
+//#include <Search/Search.hpp>
 
 int main()
 {
@@ -27,6 +28,13 @@ int main()
 	ControlerPlayer controler(player, std::make_shared<Room>(std::move(room)), dir);
 	std::vector<ControlerAI> vect;
 	Game g(controler, vect);
-	g.start();
+	try
+	{
+		g.start();
+	}
+	catch (...)
+	{
+		return 1;
+	}
 	return 0;
 }

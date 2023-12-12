@@ -8,6 +8,7 @@ ControlerAI::ControlerAI(std::shared_ptr<Player> player, std::shared_ptr<Room> r
 	direction_ = std::move(dir);
 	room_ = std::move(room);
 	player_ = std::move(player);
+	count_ = 0;
 }
 
 //int ControlerAI::roll()
@@ -41,29 +42,23 @@ void ControlerAI::using_ability(size_t mean, Coordinate& cor)
 
 void ControlerAI::move(Direction& direction)
 {
-	if (direction.x() + direction_.x() >= room_->get_matrix()->size_matrix() || direction.x() + direction_.x() < 0 ||
-		direction.y() + direction_.y() >= room_->get_matrix()->size_line() || direction.y() + direction_.y() < 0)
+	if (player_->get_id() == 8)
 	{
 		return;
 	}
-	Coordinate cor(direction.x() + direction_.x(), direction.y() + direction_.y());
+	Coordinate cor(direction.x(), direction.y());
 	for (auto& v : room_->get_cell(cor).get_content())
 	{
-		if (auto content = std::dynamic_pointer_cast<DamageCaused>(v))
-		{
-			return;
-		}
 		if (auto content = std::dynamic_pointer_cast<Obstacle>(v))
 		{
 			if (content->is_hard())
 			{
 				return;
 			}
-
 		}
 	}
 	room_->get_cell(direction_.get_coordinate()).delete_selection(player_);
-	direction_.get_coordinate().x = direction.x() + direction_.x();
-	direction_.get_coordinate().y = direction.y() + direction_.y();
+	direction_.get_coordinate().x = direction.x();
+	direction_.get_coordinate().y = direction.y();
 	room_->get_cell(direction_.get_coordinate()).add_selection(player_);
 }

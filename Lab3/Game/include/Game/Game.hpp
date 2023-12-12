@@ -15,7 +15,10 @@
 #include <UnResponsive/UnResponsive.h>
 #include <MakeCharacteristicForGolem/MakeCharacteristicForGolem.h>
 #include <Lava/Lava.h>
+#include <Search/Search.hpp>
 #include <Golem/Golem.h>
+#include <Goblin/Goblin.hpp>
+#include <SFML/Audio.hpp>
 
 #include <fstream>
 #include <vector>
@@ -39,6 +42,8 @@ private:
 	Direction get_direction();
 
 	std::vector<ControlerAI>& get_vector_ai();
+
+	std::vector<std::vector<Coordinate>> get_search();
 
 	size_t get_num();
 
