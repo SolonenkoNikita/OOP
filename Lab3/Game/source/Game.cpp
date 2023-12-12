@@ -163,12 +163,12 @@ size_t Game::get_num()
 std::vector<std::vector<Coordinate>> Game::get_search()
 {
 	std::vector<std::vector<Coordinate>> vv;
+	Search sear;
 	for (int i = 0; i < vector_ai_.size(); i++)
 	{
-		Search sear;
 		Coordinate cordin(vector_ai_[i].get_dir().x(), vector_ai_[i].get_dir().y());
 		std::vector<Coordinate> vec = sear.search(*controler_player_.get_room()->get_matrix(), cordin, controler_player_.get_dir().get_coordinate());
-		vv.emplace_back(vec);
+		vv.emplace_back(std::move(vec));
 	}
 	return vv;
 }
@@ -181,6 +181,7 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 	music.play();
 	std::vector<std::vector<Coordinate>> vv = get_search();
 	sf::Time halfSecond = sf::milliseconds(500);
+	int size = vv[0].size();
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -195,32 +196,29 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 		controler_player_.move(dir);
 		if (old_dir != dir)
 		{
-			/*for (auto& vec : vv)
+			for (auto& vec : vv)
 			{
 				vec.clear();
 			}
-			vv.clear();*/
+			vv.clear();
 			vv = get_search();
 		}
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < vv.size(); i++)
 		{
-			if (vector_ai_[i].get_count() > vv[i].size())
+			if (vector_ai_[i].get_count() >= vv[i].size())
 			{
 				vector_ai_[i].set_count(0);
 				continue;
 			}
 			if (vv[i][vector_ai_[i].get_count()] == controler_player_.get_dir())
 			{
+				vector_ai_[i].set_count(0);
 				continue;
 			}
-			int j = vector_ai_[i].get_count();
-			Direction di(vv[i][j]);
-			j++;
+			Direction di(vv[i][vector_ai_[i].get_count()]);
 			vector_ai_[i].move(di);
-			vector_ai_[i].set_count(j);
+			vector_ai_[i].set_count(vector_ai_[i].get_count() + 1);
 		}
-		//std::cout << vector_ai_[0].get_dir().x() << ' ' << vector_ai_[0].get_dir().y() << '\n';
-		std::cout << controler_player_.get_dir().x() << ' ' << controler_player_.get_dir().x() << '\n';
 		int number = get_num();
 		if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 		{
@@ -231,7 +229,7 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 			{
 				controler_player_.using_ability(number, coor);
 			}
-			if(number != 2 && (fabs(x - controler_player_.get_dir().x()) <= 1 || fabs(y - controler_player_.get_dir().x()) <= 1))
+			if(number != 2 && (fabs(x - controler_player_.get_dir().x()) <= 1 || fabs(y - controler_player_.get_dir().y()) <= 1))
 			{
 				controler_player_.using_ability(number, coor);
 			}
