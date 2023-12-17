@@ -19,9 +19,11 @@
 #include <Golem/Golem.h>
 #include <Goblin/Goblin.hpp>
 #include <SFML/Audio.hpp>
+#include <ConcurrentQueue/ConrurrentQueue.hpp>
 
 #include <fstream>
 #include <vector>
+#include <future>
 
 
 class Game
@@ -30,6 +32,8 @@ private:
 	ControlerPlayer controler_player_;
 
 	std::vector<ControlerAI> vector_ai_;
+
+	std::mutex mutex_;
 
 	sf::Texture create_texture(size_t id, std::vector<std::string>& ar);
 
@@ -48,6 +52,8 @@ private:
 	size_t get_num();
 
 	void create_game();
+
+	void filling_path();
 
 	void draw(sf::RenderWindow& window, VectorForImages& v);
 

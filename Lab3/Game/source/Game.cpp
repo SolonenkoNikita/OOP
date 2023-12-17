@@ -74,11 +74,42 @@ void Game::create_game()
 	Orc orc;
 	Goblin goblin;
 	ForGolem forgolem;
+	std::mutex mut;
 	Characteristics golems_ch = forgolem.make_characteristics("../../../../Files/Golem.txt");
 	std::vector<std::shared_ptr<Base>> vectores;
-	vectores.emplace_back(std::make_shared<Lava>(1));
-	vectores.emplace_back(std::make_shared<Alive>(orc.make_orc(d, c), 2));
-	vectores.emplace_back(std::make_shared<Alive>(goblin.make_goblin(d, c), 12));
+	
+	auto push = [&](std::shared_ptr<Base> v)
+	{
+			std::lock_guard<std::mutex> lock(mut); 
+			vectores.emplace_back(std::move(v));
+	};
+	std::thread thread1([&]()
+	{
+			push(std::make_shared<Lava>(1));
+			push(std::make_shared<Floor>());
+			push(std::make_shared<Wall>());
+			push(std::make_shared<Door>());
+			push(std::make_shared<Essence>());
+	});
+
+	std::thread thread2([&]()
+	{
+			push(std::make_shared<Alive>(orc.make_orc(d, c), 2));
+			push(std::make_shared<Alive>(goblin.make_goblin(d, c), 12));
+			push(controler_player_.get_player());
+			push(std::make_shared<Golem>(std::move(golems_ch)));
+			push(std::make_shared<Skeleton>(goblin.make_goblin(d, c)));
+			push(std::make_shared<Zombie>(orc.make_orc(d, c)));
+	});
+
+	thread1.join();
+
+	thread2.join();
+
+
+	//vectores.emplace_back(std::make_shared<Lava>(1));
+	//vectores.emplace_back(std::make_shared<Alive>(orc.make_orc(d, c), 2));
+	/*vectores.emplace_back(std::make_shared<Alive>(goblin.make_goblin(d, c), 12));
 	vectores.emplace_back(controler_player_.get_player());
 	vectores.emplace_back(std::make_shared<Floor>());
 	vectores.emplace_back(std::make_shared<Wall>());
@@ -86,7 +117,8 @@ void Game::create_game()
 	vectores.emplace_back(std::make_shared<Door>());
 	vectores.emplace_back(std::make_shared<Essence>());
 	vectores.emplace_back(std::make_shared<Skeleton>(goblin.make_goblin(d, c)));
-	vectores.emplace_back(std::make_shared<Zombie>(orc.make_orc(d, c)));
+	vectores.emplace_back(std::make_shared<Zombie>(orc.make_orc(d, c)));*/
+
 	create_room("../../../../FileForRoom/FileForRoom.txt", vectores);
 }
 
@@ -160,17 +192,15 @@ size_t Game::get_num()
 	}
 }
 
-std::vector<std::vector<Coordinate>> Game::get_search()
+void Game::filling_path()
 {
-	std::vector<std::vector<Coordinate>> vv;
 	Search sear;
-	for (int i = 0; i < vector_ai_.size(); i++)
+	for (size_t i = 0; i < vector_ai_.size(); i++)
 	{
 		Coordinate cordin(vector_ai_[i].get_dir().x(), vector_ai_[i].get_dir().y());
 		std::vector<Coordinate> vec = sear.search(*controler_player_.get_room()->get_matrix(), cordin, controler_player_.get_dir().get_coordinate());
-		vv.emplace_back(std::move(vec));
+		vector_ai_[i].set_way(std::move(vec));
 	}
-	return vv;
 }
 
 void Game::draw(sf::RenderWindow& window, VectorForImages& v)
@@ -179,9 +209,17 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 	sf::Music music;
 	music.openFromFile("../../../../Music/heroes.ogg");
 	music.play();
-	std::vector<std::vector<Coordinate>> vv = get_search();
-	sf::Time halfSecond = sf::milliseconds(500);
-	int size = vv[0].size();
+	
+	filling_path();
+
+	size_t numThreads = 3;
+
+	size_t chunkSize = vector_ai_.size() / numThreads;
+
+	std::vector<std::thread> threads;
+
+	ConcurrentQueue<std::vector<Coordinate>> queue;
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -196,26 +234,49 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 		controler_player_.move(dir);
 		if (old_dir != dir)
 		{
-			for (auto& vec : vv)
+			std::vector<std::thread> threads;
+			for (size_t i = 0; i < numThreads; ++i)
 			{
-				vec.clear();
+				int start = i * chunkSize;
+				int end = (i == numThreads - 1) ? vector_ai_.size() : (i + 1) * chunkSize;
+
+				threads.emplace_back([this, start, end]() 
+					{
+					Search sear;
+					for (size_t j = start; j < end; ++j) 
+					{
+						Coordinate cordin(vector_ai_[j].get_dir().x(), vector_ai_[j].get_dir().y());
+						std::vector<Coordinate> vec;
+						{
+							std::lock_guard<std::mutex> lock(mutex_);
+							vec = sear.search(*controler_player_.get_room()->get_matrix(), cordin, controler_player_.get_dir().get_coordinate());
+						}
+						{
+							std::lock_guard<std::mutex> lock(mutex_);
+							vector_ai_[j].set_way(std::move(vec));
+						}
+					}
+					});
 			}
-			vv.clear();
-			vv = get_search();
+			for (auto& thread : threads) 
+			{
+				thread.join();
+			}
+				
 		}
-		for (int i = 0; i < vv.size(); i++)
+		for (size_t i = 0; i < vector_ai_.size(); i++)
 		{
-			if (vector_ai_[i].get_count() >= vv[i].size())
+			if (vector_ai_[i].get_count() >= vector_ai_[i].get_way().size())
 			{
 				vector_ai_[i].set_count(0);
 				continue;
 			}
-			if (vv[i][vector_ai_[i].get_count()] == controler_player_.get_dir())
+			if (vector_ai_[i].get_way()[vector_ai_[i].get_count()] == controler_player_.get_dir())
 			{
 				vector_ai_[i].set_count(0);
 				continue;
-			}
-			Direction di(vv[i][vector_ai_[i].get_count()]);
+			} 
+			Direction di(vector_ai_[i].get_way()[vector_ai_[i].get_count()]);
 			vector_ai_[i].move(di);
 			vector_ai_[i].set_count(vector_ai_[i].get_count() + 1);
 		}

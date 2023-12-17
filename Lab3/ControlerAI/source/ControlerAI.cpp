@@ -2,6 +2,7 @@
 
 #include <cmath>
 
+
 ControlerAI::ControlerAI(std::shared_ptr<Player> player, std::shared_ptr<Room> room, Direction dir) //: rng_(rd_()), dist_(std::uniform_int_distribution<>(1, 9))
 {
 	//rng_.seed(::time(NULL));

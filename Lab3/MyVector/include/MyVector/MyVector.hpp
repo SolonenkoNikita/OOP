@@ -77,7 +77,7 @@ public:
 
 	MyVector(const std::initializer_list<T>& l) : capacity_(l.size() * 2), size_(l.size())
 	{
-		data_ = reinterpret_cast<T*>(new char[(l.size() * 2) * sizeof(T)]);
+		data_ = reinterpret_cast<T*>(new(std::align_val_t(alignof(T))) char[(l.size() * 2) * sizeof(T)]);
 		try
 		{
 			std::uninitialized_copy(l.begin(), l.end(), data_);
@@ -152,13 +152,7 @@ public:
 	~MyVector()
 	{
 		clear();
-		deallocate();
-	}
-	
-	void deallocate() noexcept
-	{
 		delete[] reinterpret_cast<char*>(data_);
-		data_ = nullptr;
 	}
 
 	void clear() noexcept
@@ -175,7 +169,7 @@ public:
 	* @return size
 	*/
 
-	constexpr size_t size() const noexcept
+	size_t size() const
 	{
 		return size_;
 	}
@@ -185,21 +179,50 @@ public:
 	* @return capacity
 	*/
 
-	constexpr size_t capacity() const noexcept
+	size_t capacity() const
 	{
 		return capacity_;
 	}
 
+	/*template<typename T>
+	std::remove_reference_t<T>&& move(T&& x) noexcept
+	{
+		return static_cast<std::remove_reference<T>::type&&> (x);
+	}
+
+	template<class T>
+	T declval();
+
+	template<typename T>
+	std::conditional_t<noexcept(T(declval<T&&>())) && std::is_copy_constructible_v<T>, T&&, const T&> move_if_noexcept(T& x) noexcept
+	{
+		return std::move(x);
+	}
+
+	template<typename T>
+	auto move_if_noexcept(T& x) noexcept -> std::conditional_t<noexcept(T(std::move(x))) && std::is_copy_constructible_v<T>, T&&, const T&>
+	{
+		return std::move(x);
+	}*/
+
 	void reserve(size_t n)
 	{
-		if (n <= capacity_) return;
-		T* new_data = reinterpret_cast<T*>(new char[n * sizeof(T)]);
+		if (n < capacity_) return;
+		size_t i = 0;
+		T* new_data = reinterpret_cast<T*>(new(std::align_val_t(alignof(T))) char[n * sizeof(T)]);
 		try
 		{
-			std::uninitialized_copy(data_, data_ + size_, new_data);
+			for (; i < size_; i++)
+			{
+				new(new_data + i) T(std::move_if_noexcept(data_[i]));
+			}
 		}
 		catch (...)
 		{
+			for (size_t k = 0; k < i; ++k)
+			{
+				(new_data + k)->~T();
+			}
 			delete[] reinterpret_cast<char*>(new_data);
 			throw;
 		}
@@ -214,7 +237,16 @@ public:
 
 	void resize(size_t n, const T& value = T())
 	{
-		if (n > capacity_) reserve(n);
+		if (n < size_)
+		{
+			for (size_t j = n; j < size_; j++)
+			{
+				(data_ + j)->~T();
+			}
+			size_ = n;
+			return;
+		}
+		reserve(n);
 		size_t i = size_;
 		try
 		{
@@ -231,10 +263,6 @@ public:
 			}
 			delete[] reinterpret_cast<char*>(data_);
 			throw;
-		}
-		if (n < size_)
-		{
-			size_ = n;
 		}
 	}
 
@@ -280,18 +308,13 @@ public:
 	{
 		if (index >= size_ || index < 0)
 		{
-			throw std::out_of_range("Segmentation Fault\n");
+			throw std::out_of_range("Incorrect index\n");
 		}
-		if (size_ == capacity_)
-		{
-			reserve(capacity_ * 2);
-		}
-		new(data_ + size_) T(std::forward<T>(value));
+		emplace_back(std::move(value));
 		for (size_t i = size_; i > index; i--)
 		{
 			my_swap(data_[i], data_[i - 1]);
 		}
-		++size_;
 	}
 
 	/**
@@ -412,16 +435,6 @@ public:
 		return data_[index];
 	}
 
-	friend std::ostream& operator <<(std::ostream& s, const MyVector<T>& v)
-	{
-		for (iterator i = v.begin(); i != v.end(); i++)
-		{
-			s << *i << ' ';
-		}
-		s << '\n';
-		return s;
-	}
-
 	/**
 	* @brief returns the iterator to the beginning of the vector
 	* @return iterator
@@ -437,6 +450,11 @@ public:
 		return data_;
 	}
 
+	const iterator cbegin() const
+	{
+		return data_;
+	}
+
 	/**
 	* @brief returns the iterator to the ending of the vector
 	* @return iterator
@@ -448,6 +466,11 @@ public:
 	}
 
 	const iterator end() const
+	{
+		return data_ + size_;
+	}
+
+	const iterator cend() const
 	{
 		return data_ + size_;
 	}

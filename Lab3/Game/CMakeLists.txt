@@ -33,5 +33,6 @@ target_link_libraries(Game
 							Golem
 							Goblin
 							Search
+							ConcurrentQueue
 							Door)
 target_include_directories(Game PUBLIC include)

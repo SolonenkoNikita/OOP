@@ -94,3 +94,5 @@ add_subdirectory(Controler)
 add_subdirectory(ControlerPlayer)
 
 add_subdirectory(ControlerAI)
+
+add_subdirectory(ConcurrentQueue)
