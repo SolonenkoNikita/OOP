@@ -5,7 +5,7 @@ bool PushEssence::is_long() const
     return false;
 }
 
-void PushEssence::apply(Characteristics& caster_characteristic, Cell& cell)
+void PushEssence::apply(Characteristics& caster_characteristic, Cell& cell, Matrix<Cell>& m)
 {
     for (auto& content : cell.get_content())
     {

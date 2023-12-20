@@ -1,10 +1,13 @@
-#ifndef _TakeDamage_H_
-#define _TakeDamage_H_
+#ifndef _Boom_HPP_
+#define _Boom_HPP_
 
 #include <Ability/Ability.h>
 
-class TakeDamage : public Ability
+class Boom : public Ability
 {
+private:
+
+	void operation(Cell& cell);
 public:
 
 	bool is_long() const override;

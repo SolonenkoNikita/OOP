@@ -80,7 +80,7 @@ public:
 		return abilites_;
 	}
 
-	void using_ability(Cell& cell, size_t index) override;
+	void using_ability(Cell& cell, size_t index, Matrix<Cell>& m) override;
 
 	/**
 	* @brief this function - case of taking damage by creature

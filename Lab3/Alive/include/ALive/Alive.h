@@ -92,7 +92,7 @@ public:
 	* @param - name
 	*/
 
-	void using_ability(Cell&, size_t) override;
+	void using_ability(Cell&, size_t, Matrix<Cell>&) override;
 
 	void die(Cell&) override;
 

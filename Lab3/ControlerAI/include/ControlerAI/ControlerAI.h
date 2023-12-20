@@ -61,6 +61,11 @@ public:
 
 	Direction& get_dir();
 
+	std::shared_ptr<Player> get_player()
+	{
+		return player_;
+	}
+
 	ControlerAI& set_way(std::vector<Coordinate> v)
 	{
 		way_ = std::move(v);

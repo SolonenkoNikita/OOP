@@ -54,7 +54,7 @@ public:
 
 	//void using_ability(Cell&, std::string&);
 
-	void using_ability(Cell&, size_t) override;
+	void using_ability(Cell&, size_t, Matrix<Cell>& m) override;
 
 	void die(Cell&) override;
 

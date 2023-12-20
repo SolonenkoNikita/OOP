@@ -21,7 +21,7 @@ public:
         return false;
     }
 
-    void apply(Characteristics& caster_characteristic, Cell& cell) override
+    void apply(Characteristics& caster_characteristic, Cell& cell, Matrix<Cell>& m) override
     {
         size_t cur = caster_characteristic.get_meaning(Atrributes_Names::current_mana_);
         auto x = static_cast<long long>(cur - mana_);

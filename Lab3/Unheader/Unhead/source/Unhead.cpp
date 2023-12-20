@@ -48,10 +48,10 @@ void Unhead::die(Cell& cell)
 //	ab->apply(creature_.get_characteristic(), cell);
 //}
 
-void Unhead::using_ability(Cell& cell, size_t index)
+void Unhead::using_ability(Cell& cell, size_t index, Matrix<Cell>& m)
 {
 	std::shared_ptr<Ability> ab = creature_.get_abilites().get_ability(index);
-	ab->apply(creature_.get_characteristic(), cell);
+	ab->apply(creature_.get_characteristic(), cell, m);
 }
 
 

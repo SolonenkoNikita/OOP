@@ -3,6 +3,7 @@
 
 #include <Cell/Cell.h>
 #include <Characteristic/Characteristic.h>
+#include <Matrix/Matrix.hpp>
 
 /**
 * @brief Abstract Class Ability, that defines the ability call
@@ -24,7 +25,7 @@ public:
 	* @param caster_characteristic  - characteristics of the one who uses the ability
 	* @param cell - the cell in which the skill will be ability
 	*/
-	virtual void apply(Characteristics& caster_characteristic, Cell& cell) = 0;
+	virtual void apply(Characteristics& caster_characteristic, Cell& cell, Matrix<Cell>& m) = 0;
 
 };
 

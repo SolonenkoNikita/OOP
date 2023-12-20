@@ -19,6 +19,7 @@
 #include <Golem/Golem.h>
 #include <Goblin/Goblin.hpp>
 #include <SFML/Audio.hpp>
+#include <Plagin/Plagin.hpp>
 #include <ConcurrentQueue/ConrurrentQueue.hpp>
 
 #include <fstream>

@@ -32,7 +32,8 @@ ControlerPlayer& ControlerPlayer::set_dir(int x, int y)
 void ControlerPlayer::using_ability(size_t mean, Coordinate& cor)
 {
 	Cell& cell = room_->get_cell(cor);
-	player_->using_ability(cell, mean);
+	Matrix<Cell>& m = *room_->get_matrix();
+	player_->using_ability(cell, mean, m);
 }
 
 void ControlerPlayer::move(Direction& direction)

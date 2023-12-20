@@ -1,0 +1,16 @@
+Arab
+
+evil
+
+max_health 15
+
+current_health 15
+
+skipping_damage 50
+
+protection 10
+
+damage 5
+
+attack 5
+  

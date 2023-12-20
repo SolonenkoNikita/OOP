@@ -69,6 +69,7 @@ void Game::create_room(const std::string& filename, std::vector<std::shared_ptr<
 
 void Game::create_game()
 {
+	Plagin p;
 	Creator_Creature c;
 	DirectorForFile d;
 	Orc orc;
@@ -90,12 +91,14 @@ void Game::create_game()
 			push(std::make_shared<Wall>());
 			push(std::make_shared<Door>());
 			push(std::make_shared<Essence>());
+
 	});
 
 	std::thread thread2([&]()
 	{
 			push(std::make_shared<Alive>(orc.make_orc(d, c), 2));
 			push(std::make_shared<Alive>(goblin.make_goblin(d, c), 12));
+			push(std::make_shared<Alive>(p.make_plagin(d, c), 13));
 			push(controler_player_.get_player());
 			push(std::make_shared<Golem>(std::move(golems_ch)));
 			push(std::make_shared<Skeleton>(goblin.make_goblin(d, c)));
@@ -105,7 +108,6 @@ void Game::create_game()
 	thread1.join();
 
 	thread2.join();
-
 
 	//vectores.emplace_back(std::make_shared<Lava>(1));
 	//vectores.emplace_back(std::make_shared<Alive>(orc.make_orc(d, c), 2));
@@ -212,6 +214,8 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 	
 	filling_path();
 
+	sf::Clock clock;
+
 	size_t numThreads = 3;
 
 	size_t chunkSize = vector_ai_.size() / numThreads;
@@ -228,6 +232,7 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
+		sf::Time elapsed = clock.getElapsedTime();
 		Direction dir, old_dir = controler_player_.get_dir();
 		window.clear();
 		dir = get_direction();
@@ -239,7 +244,6 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 			{
 				int start = i * chunkSize;
 				int end = (i == numThreads - 1) ? vector_ai_.size() : (i + 1) * chunkSize;
-
 				threads.emplace_back([this, start, end]() 
 					{
 					Search sear;
@@ -305,6 +309,17 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 				}
 			}
 		}
+		if (elapsed.asSeconds() >= 5)
+		{
+			for (size_t i = 0ull; i < vector_ai_.size(); ++i)
+			{
+				if (vector_ai_[i].get_player()->get_id() == 13)
+				{
+					vector_ai_[i].using_ability(1, vector_ai_[i].get_dir().get_coordinate());
+					break;
+				}
+			}
+		}
 		if (flag != 1)
 		{
 			for (int i = 0; i < controler_player_.get_room()->get_matrix()->size_matrix(); i++)
@@ -327,6 +342,7 @@ void Game::draw(sf::RenderWindow& window, VectorForImages& v)
 						{
 							g->reaction(controler_player_.get_room()->get_cell(cor));
 						}
+						
 					}
 				}
 			}

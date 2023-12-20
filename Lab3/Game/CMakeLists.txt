@@ -34,5 +34,6 @@ target_link_libraries(Game
 							Goblin
 							Search
 							ConcurrentQueue
+							Plagin
 							Door)
 target_include_directories(Game PUBLIC include)

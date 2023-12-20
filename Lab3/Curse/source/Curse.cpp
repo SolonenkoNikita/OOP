@@ -12,7 +12,7 @@ bool Curse::is_long() const
     return true;
 }
 
-void Curse::apply(Characteristics& caster_characteristic, Cell& cell)
+void Curse::apply(Characteristics& caster_characteristic, Cell& cell, Matrix<Cell>& m)
 {
     check();
     for (auto& content : cell.get_content())

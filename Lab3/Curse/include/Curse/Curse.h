@@ -38,7 +38,7 @@ public:
 	* @param cell - the cell in which the skill will be ability
 	*/
 
-	void apply(Characteristics& caster_characteristic, Cell& cell) override;
+	void apply(Characteristics& caster_characteristic, Cell& cell, Matrix<Cell>& m) override;
 };
 
 #endif

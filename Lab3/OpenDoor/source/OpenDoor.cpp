@@ -5,7 +5,7 @@ bool OpenDoor::is_long() const
     return false;
 }
 
-void OpenDoor::apply(Characteristics& caster_characteristic, Cell& cell)
+void OpenDoor::apply(Characteristics& caster_characteristic, Cell& cell, Matrix<Cell>& m)
 {
     for (auto& content : cell.get_content())
     {

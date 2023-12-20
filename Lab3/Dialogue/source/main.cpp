@@ -23,6 +23,15 @@ int main()
 	Creature cr_necr = n.make_necromancer(d, c);
 	std::shared_ptr<Player> player = std::make_shared<Alive>(std::move(cr_necr), 1);
 	Matrix<Cell> m(10, 15);
+	for (size_t i = 0; i < 10; i++)
+	{
+		for (size_t j = 0; j < 15; j++)
+		{
+			Cell& cell = m.at(i, j);
+			Cell c(i, j);
+			cell = c;
+		}
+	}
 	Room room(std::make_shared<Matrix<Cell>>(std::move(m)));
 	ControlerPlayer controler(player, std::make_shared<Room>(std::move(room)), dir);
 	std::vector<ControlerAI> vect;

@@ -114,6 +114,7 @@ class Cell
 {
 private:
 	Coordinate coordinate_;
+
 	std::vector<std::shared_ptr<Base>> content_;
 
 public:
@@ -148,6 +149,12 @@ public:
 
 	Cell(int x, int y) : coordinate_(x, y) {};
 
+	Cell& operator = (const Cell& cell)
+	{
+		coordinate_.x = cell.coordinate_.x;
+		coordinate_.y = cell.coordinate_.y;
+		return *this;
+	}
 	/**
 	* @brief this function return const reference to vector
 	* @return const std::vector<Base*>&

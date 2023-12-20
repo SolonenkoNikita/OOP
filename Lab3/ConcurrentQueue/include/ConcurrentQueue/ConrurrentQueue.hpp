@@ -11,6 +11,7 @@ class ConcurrentQueue
 {
 private:
 	std::queue<T> queue_;
+	 
 	std::mutex qu_mutex;
 public:
 

@@ -8,7 +8,7 @@ class Cell;
 class Player : virtual public Base
 {
 public:
-	virtual void using_ability(Cell&, size_t) = 0;
+	virtual void using_ability(Cell&, size_t, Matrix<Cell>&) = 0;
 
 	virtual ~Player() = default;
 };

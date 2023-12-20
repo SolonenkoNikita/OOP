@@ -96,3 +96,7 @@ add_subdirectory(ControlerPlayer)
 add_subdirectory(ControlerAI)
 
 add_subdirectory(ConcurrentQueue)
+
+add_subdirectory(Plagin)
+
+add_subdirectory(Boom)

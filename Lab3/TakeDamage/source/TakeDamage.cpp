@@ -5,7 +5,7 @@ bool TakeDamage::is_long() const
 	return false;
 }
 
-void TakeDamage::apply(Characteristics& caster_characteristic, Cell& cell)
+void TakeDamage::apply(Characteristics& caster_characteristic, Cell& cell, Matrix<Cell>& m)
 {
 	for (auto& it : cell.get_content())
 	{

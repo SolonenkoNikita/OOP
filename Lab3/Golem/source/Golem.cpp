@@ -54,10 +54,10 @@ void Golem::die(Cell& cell)
 	}
 }
 
-void Golem::using_ability(Cell& cell, size_t index)
+void Golem::using_ability(Cell& cell, size_t index, Matrix<Cell>& m)
 {
 	std::shared_ptr<Ability> ab = abilites_.get_ability(index);
-	ab->apply(characteristics_, cell);
+	ab->apply(characteristics_, cell, m);
 }
 
 Golem& Golem::set_characteristics(Atrributes_Names name, size_t meaning)

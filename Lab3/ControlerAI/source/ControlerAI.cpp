@@ -38,7 +38,8 @@ void ControlerAI::using_ability(size_t mean, Coordinate& cor)
 {
 	//auto i = roll();
 	Cell& cell = room_->get_cell(cor);
-	player_->using_ability(cell, mean);
+	Matrix<Cell>& m = *room_->get_matrix();
+	player_->using_ability(cell, mean, m);
 }
 
 void ControlerAI::move(Direction& direction)

@@ -11,4 +11,5 @@ skeleton.png
 essence.png
 zombie.png
 goblin.png
+arab.png
 game_over.png
